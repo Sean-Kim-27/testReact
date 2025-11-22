@@ -13,7 +13,7 @@ function App() {
   const fetchBoards = async () => {
     try {
       // 스프링 부트 주소로 요청 날림
-      const response = await axios.get('http://localhost:8080/api/boards');
+      const response = await axios.get('https://testspring-kmuc.onrender.com/api/boards');
       setBoards(response.data); // 가져온 데이터 바구니에 담기
       console.log("데이터 가져오기 성공:", response.data);
     } catch (error) {
