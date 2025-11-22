@@ -37,7 +37,7 @@ function App() {
     }
 
     try {
-      await axios.post('http://localhost:8080/api/boards', {
+      await axios.post('https://testspring-kmuc.onrender.com/api/boards', {
         title: title,
         content: content,
         writer: writer
