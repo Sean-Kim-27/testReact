@@ -1,0 +1,26 @@
+.header {
+    width: 100vw;
+    height: 80px;
+    /* border: 1px solid black; */
+    position: relative;
+}
+
+.menu_container {
+    width: 200px;
+    height: 100%;
+    float: right;
+    display: flex;
+    padding-right: 50px;
+}
+
+.menu {
+    width: calc(100% / 2);
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu > p {
+    cursor: pointer;
+}
