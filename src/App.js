@@ -6,8 +6,6 @@ import {Routes, Route} from 'react-router-dom';
 import RegisterPage from './RegisterPage';
 import SignInPage from './SignInPage';
 
-// import './App.css'; // 스타일 좀 먹이자
-
 function App() {
   return(
     <Routes>

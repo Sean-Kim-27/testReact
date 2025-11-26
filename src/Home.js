@@ -13,7 +13,7 @@ function Home() {
 
 
     const handleSignUp = () => {
-        console.log("회원가입 버튼 클릭");
+        navigate('/registerPage')
     }
 
     return(
@@ -22,12 +22,12 @@ function Home() {
                 <li className='menu'
                     onClick={handleSignIn}
                 >
-                    로그인
+                    <p>로그인</p>
                 </li>
                 <li className='menu'
                     onClick={handleSignUp}
                 >
-                    회원가입
+                    <p>회원가입</p>
                 </li>
             </ul>
         </nav>

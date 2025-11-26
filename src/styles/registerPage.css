@@ -1,0 +1,23 @@
+.register_container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register_input {
+    width: 400px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.register_submit_button {
+    width: 400px;
+    height: 50px;
+}

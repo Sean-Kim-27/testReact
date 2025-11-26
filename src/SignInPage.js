@@ -11,19 +11,19 @@ function SignInPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    // console.log(userId, password)
     try {
-      const response = await axios.post('https://testspring-kmuc.onrender.com/auth/login', {
+      const request = await axios.post('https://testspring-kmuc.onrender.com/auth/login', {
         username: userId,
         password: password,
-      });     
+      });
 
-      console.log(response);
-
-      if(response.data.success) {
+      if(request.data.success) {
         alert('로그인 성공!');
-        navigate('/')
+        navigate('/');
       } else {
-        alert('로스인 실패', response.data.message);
+        alert('로그인 실패', request.data.message);
       }
     } catch(error) {
       console.error('로그인 중 오류 발생:', error)
@@ -34,11 +34,11 @@ function SignInPage() {
   return (
     <div className='container' id='signIn_container'>
       <form className='signIn_form' onSubmit={handleLogin}>
-        <input type='text' className='text_input' placeholder='Input ID' name='username' id='input_id'
+        <input type='text' className='text_input' placeholder='아이디를 입력하세요.' name='username' id='input_id'
         value={userId}
         onChange={(e) => setUserId(e.target.value)}
         ></input>
-        <input type='text' className='text_input' placeholder='Input PW' name='password' id='input_pw'
+        <input type='password' className='text_input' placeholder='비밀번호를 입력하세요.' name='password' id='input_pw'
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         ></input>
