@@ -1,0 +1,58 @@
+.header {
+    width: 100vw;
+    height: 80px;
+    /* border: 1px solid black; */
+    position: relative;
+    box-shadow: 0px 0px 3px black;
+}
+
+.header > nav {
+    height: 100%;   
+}
+
+.Home_container {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+.menu_container {
+    width: 200px;
+    height: 100%;
+    float: right;
+    display: flex;
+    /* padding-right: 50px; */
+}
+
+.menu {
+    width: calc(100% / 2);
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu > p {
+    margin: 0px;
+    cursor: pointer;
+}
+
+.userName {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.userName > p {
+    margin: 0px;
+}
+
+.notToken {
+    height: 100%;
+    font-size: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
