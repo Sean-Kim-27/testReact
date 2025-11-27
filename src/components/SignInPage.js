@@ -23,22 +23,19 @@ function SignInPage({setUser}) {
         password: password,
       }) : false;
       
-
-      
+      console.log(request.data);
 
       if(request) {
-        const { token, username, nickname } = request.data;
+        const { token, nickname } = request.data;
         setToken(token);
-
+        
         localStorage.setItem("jwtToken", token);
+        console.log(token)
         // 🚨 2. App.js의 user 상태를 업데이트!
         setUser({
             nickname: nickname,
             token: token
         });
-
-        // LocalStorage 코드는 Context API를 사용하지 않을 경우 토큰 저장 용도로만 남겨두자.
-        localStorage.setItem("jwtToken", request.data.token); // 토큰만 저장
 
         navigate('/');
       } else {

@@ -1,8 +1,5 @@
 import react from 'react'
 import '../styles/home.css'
-import { useState } from 'react';
-import axios from 'axios';
-import SignInPage from './SignInPage';
 import { useNavigate } from 'react-router-dom';
 import BoardList from './BoardList';
 
@@ -10,7 +7,7 @@ import BoardList from './BoardList';
 function Home({user, setUser}) {
     const navigate = useNavigate();
     const token = localStorage.getItem("jwtToken");
-    console.log(user);
+    console.log(token);
 
 
     const handleSignIn = () => {
@@ -55,7 +52,7 @@ function Home({user, setUser}) {
             </nav>
             {token ? (
                 <BoardList uesr={user} />
-            ) : ''}
+            ) : <div>못 불러옴 ㅅㄱ {token}</div>}
         </div>
         
     )
