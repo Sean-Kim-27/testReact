@@ -7,7 +7,7 @@ import BoardList from './BoardList';
 function Home({user, setUser}) {
     const navigate = useNavigate();
     const token = localStorage.getItem("jwtToken");
-    console.log(token);
+    // console.log(token);
 
 
     const handleSignIn = () => {
