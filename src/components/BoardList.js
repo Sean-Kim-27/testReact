@@ -8,7 +8,7 @@ function BoardList({user}) {
     const [boards, setBoards] = useState([]); // 게시글 목록 담을 바구니
     const [title, setTitle] = useState('');   // 제목 입력값
     const [content, setContent] = useState(''); // 내용 입력값
-    const [writer, setWriter] = useState('');   // 작성자 입력값
+    const [writer, setUserName] = useState('');   // 작성자 입력값
     const token = localStorage.getItem("jwtToken");
 
     // 2. 서버에서 글 목록 가져오기 (GET)
@@ -51,7 +51,7 @@ function BoardList({user}) {
             await axios.post('https://testspring-kmuc.onrender.com/api/boards', {
                 title: title,
                 content: content,
-                writer: writer
+                username: writer
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -62,7 +62,7 @@ function BoardList({user}) {
             // 입력창 비우고 목록 다시 불러오기
             setTitle('');
             setContent('');
-            setWriter('');
+            setUserName('');
             fetchBoards(); 
             } catch (error) {
             console.error("저장 실패:", error);
@@ -89,7 +89,7 @@ function BoardList({user}) {
                     type="text" 
                     placeholder="작성자" 
                     value={writer}
-                    onChange={(e) => setWriter(e.target.value)}
+                    onChange={(e) => setUserName(e.target.value)}
                     style={{ marginRight: '5px' }}
                 />
                 <input 
@@ -110,7 +110,7 @@ function BoardList({user}) {
                 <div key={board.id} style={{ border: '1px solid gray', margin: '5px', padding: '10px' }}>
                     <h4>[{board.id}] {board.title}</h4>
                     <p>{board.content}</p>
-                    <small>작성자: {board.writer} | 시간: {board.createdAt}</small>
+                    <small>작성자: {board.username} | 시간: {board.createdAt}</small>
                 </div>
                 ))}
             </div>
