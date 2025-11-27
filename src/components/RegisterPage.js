@@ -30,9 +30,18 @@ function RegisterPage() {
     }
   }
 
+  const locationBack = () => {
+    navigate('/');
+  }
+
   return (
     <div className='register_container'>
       <form className='register_form' onSubmit={RegisterCheck}>
+        <div className='location_back'
+          onClick={locationBack}
+        >
+          <i className="bi bi-arrow-left"></i>
+        </div>
         <input className='register_input' type='text' placeholder='이름을 입력하세요.' name='nickname'
         value={nickname}
         onChange={(e) => setNickname(e.target.value)}

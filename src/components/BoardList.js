@@ -71,8 +71,12 @@ function BoardList({user}) {
         }
     };
 
+    const handleRemoveBoard = ({boardId}) => {
+        console.log(boardId);
+    }
+
     return (
-        <div className="board_container" style={{ padding: '20px' }}>
+        <div className="board_container container" style={{ padding: '20px' }}>
             <h1 className='board_head_Text'>🔥 지존 게시판 🔥</h1>
 
             {/* 글 쓰기 폼 */}
@@ -107,14 +111,17 @@ function BoardList({user}) {
             {/* 글 목록 보여주기 */}
             <div className="board-list-container">
                 <h3>글 목록 ({boards.length}개)</h3>
-                <div className='board_list'>
-                    {boards.map((board) => (
-                        <div key={board.id} className='list'>
-                            <h4>[{board.id}] {board.title}</h4>
-                            <p>{board.content}</p>
-                            <small> 시간: {board.createdAt}</small>
-                        </div>
-                    ))}
+                <div className='list_scroll'>
+                    <div className='board_list'>
+                        {boards.map((board) => (
+                            <div key={board.id} className='list'>
+                                <i className="bi bi-trash-fill" id='board_remove_icon' onClick={handleRemoveBoard} />
+                                <h4>[{board.id}] {board.title}</h4>
+                                <p>{board.content}</p>
+                                <small> 시간: {board.createdAt}</small>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>

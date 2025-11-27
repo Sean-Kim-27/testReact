@@ -5,6 +5,7 @@ import '../styles/signInPage.css'
 // import Home from './Home'
 import { useNavigate } from 'react-router-dom';
 
+
 function SignInPage({setUser}) {
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
@@ -55,10 +56,13 @@ function SignInPage({setUser}) {
 
   return (
     <div className='container' id='signIn_container'>
-      <div className='location_back'
-        onClick={locationBack}
-      />
       <form className='signIn_form' onSubmit={handleLogin}>
+        <div className='location_back'
+          onClick={locationBack}
+        >
+          <i className="bi bi-arrow-left"></i>
+        </div>
+        <p>로그인 쳐 해라</p>
         <input type='text' className='text_input' placeholder='아이디를 입력하세요.' name='username' id='input_id'
         value={userId}
         onChange={(e) => setUserId(e.target.value)}
