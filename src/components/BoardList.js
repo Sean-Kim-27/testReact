@@ -118,7 +118,7 @@ function BoardList({user}) {
                                 <i className="bi bi-trash-fill" id='board_remove_icon' onClick={handleRemoveBoard} />
                                 <h4>[{board.id}] {board.title}</h4>
                                 <p>{board.content}</p>
-                                <small> 시간: {board.createdAt}</small>
+                                <small> 작성자: {board.member?.nickname || "알 수 없음"} | 시간: {board.createdAt}</small>
                             </div>
                         ))}
                     </div>
