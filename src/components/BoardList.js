@@ -5,12 +5,12 @@ import '../App.css'; // 스타일 좀 먹이자
 import '../styles/boardList.css';
 import '../styles/init.css';
 
-function BoardList({user}) {
+function BoardList({user, userId}) {
     // 1. 상태 관리 (변수들)
     const [boards, setBoards] = useState([]); // 게시글 목록 담을 바구니
     const [title, setTitle] = useState('');   // 제목 입력값
     const [content, setContent] = useState(''); // 내용 입력값
-    const [writer, setUserName] = useState('');   // 작성자 입력값
+    // const [username, setUserName] = useState('');   // 작성자 입력값
     const token = localStorage.getItem("jwtToken");
 
     // 2. 서버에서 글 목록 가져오기 (GET)
@@ -53,6 +53,7 @@ function BoardList({user}) {
             await axios.post('https://testspring-kmuc.onrender.com/api/boards', {
                 title: title,
                 content: content,
+                username: user
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -71,8 +72,14 @@ function BoardList({user}) {
         }
     };
 
-    const handleRemoveBoard = ({boardId}) => {
-        console.log(boardId);
+    const handleRemoveBoard = async(e) => {
+        await axios.delete(`https://testspring-kmuc.onrender.com/api/boards/${e.target.dataset.boardId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        alert("삭제 완료!");
+        fetchBoards();
     }
 
     return (
@@ -90,13 +97,6 @@ function BoardList({user}) {
                         onChange={(e) => setTitle(e.target.value)}
                         style={{ marginRight: '5px' }}
                     />
-                    {/* <input 
-                        type="text" 
-                        placeholder="작성자" 
-                        value={writer}
-                        onChange={(e) => setUserName(e.target.value)}
-                        style={{ marginRight: '5px' }}
-                    /> */}
                     <input 
                         type="text" 
                         placeholder="내용" 
@@ -115,7 +115,10 @@ function BoardList({user}) {
                     <div className='board_list'>
                         {boards.map((board) => (
                             <div key={board.id} className='list'>
-                                <i className="bi bi-trash-fill" id='board_remove_icon' onClick={handleRemoveBoard} />
+                                {
+                                    board.member.username === userId ? <i className="bi bi-trash-fill" id='board_remove_icon' data-board-id={board.id} onClick={handleRemoveBoard} /> : ''
+                                }
+                                
                                 <h4>[{board.id}] {board.title}</h4>
                                 <p>{board.content}</p>
                                 <small> 시간: {board.createdAt}</small>

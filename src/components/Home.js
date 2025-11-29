@@ -8,7 +8,6 @@ import BoardList from './BoardList';
 function Home({user, setUser}) {
     const navigate = useNavigate();
     const token = localStorage.getItem("jwtToken");
-    // console.log(token);
 
 
     const handleSignIn = () => {
@@ -23,7 +22,7 @@ function Home({user, setUser}) {
     const hangleLogOut = () => {
         localStorage.removeItem('jwtToken');
         setUser('');
-    } 
+    }
 
     return(
         <div className='Home_container'>
@@ -56,7 +55,7 @@ function Home({user, setUser}) {
                 </nav>
             </header>
             {token ? (
-                <BoardList uesr={user} />
+                user ? <BoardList userId={user.userId} /> : ''
             ) : <div className='notToken container'>로그인부터 하셈ㅇㅇ {token}</div>}
         </div>
         

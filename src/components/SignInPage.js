@@ -35,6 +35,7 @@ function SignInPage({setUser}) {
         // 🚨 2. App.js의 user 상태를 업데이트!
         setUser({
             nickname: nickname,
+            userId: userId,
             token: token
         });
 
