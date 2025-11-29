@@ -24,7 +24,7 @@ function App() {
   return(
     <Routes>
       <Route path="/" element={<Home user={user} setUser={setUser} />} />
-      <Route path="/boardList" element={<BoardList />} />
+      {/* <Route path="/boardList" element={<BoardList id={id} />} /> */}
       <Route path="/registerPage" element={<RegisterPage />} />
       <Route path="/signInPage" element={<SignInPage setUser={setUser} />} />
     </Routes>
