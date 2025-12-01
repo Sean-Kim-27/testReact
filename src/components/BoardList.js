@@ -116,12 +116,12 @@ function BoardList({user, userId}) {
                         {boards.map((board) => (
                             <div key={board.id} className='list'>
                                 {
-                                    board.member.username === userId ? <i className="bi bi-trash-fill" id='board_remove_icon' data-board-id={board.id} onClick={handleRemoveBoard} /> : ''
+                                    board.username === userId ? <i className="bi bi-trash-fill" id='board_remove_icon' data-board-id={board.id} onClick={handleRemoveBoard} /> : ''
                                 }
                                 
                                 <h4>[{board.id}] {board.title}</h4>
                                 <p>{board.content}</p>
-                                <small> 작성자: {board.member?.nickname || "알 수 없음"} | 시간: {board.createdAt}</small>
+                                <small> 작성자: {board.nickname} | 시간: {board.createdAt}</small>
                             </div>
                         ))}
                     </div>
