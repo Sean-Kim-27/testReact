@@ -9,17 +9,17 @@ import SignInPage from './components/SignInPage';
 function App() {
   const [user, setUser] = useState();
 
-  useEffect(() => {
-    const handleBeforeLoad = () => {
-      localStorage.removeItem("jwtToken");
-    }
+  // useEffect(() => {
+  //   const handleBeforeLoad = () => {
+  //     localStorage.removeItem("jwtToken");
+  //   }
 
-    window.addEventListener('beforeunload', handleBeforeLoad);
+  //   window.addEventListener('beforeunload', handleBeforeLoad);
 
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeLoad);
-    }
-  });
+  //   return () => {
+  //     window.removeEventListener('beforeunload', handleBeforeLoad);
+  //   }
+  // });
 
   return(
     <Routes>
