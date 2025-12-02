@@ -53,8 +53,8 @@ function BoardList(userId) {
             onConnect: () => {
                 console.log('웹소켓 연결 성공!');
                 
-                // 3. '/topic/boards' 채널 구독 시작
-                client.subscribe('/topic/boards', (message) => {
+                // 3. '/topic/new-board' 채널 구독 시작
+                client.subscribe('/topic/new-board', (message) => {
                     console.log('새 게시글 알림 수신, 목록 업데이트:', message.body);
                     // 메시지가 오면 목록을 다시 불러와 화면을 최신화
                     fetchBoards(); 
