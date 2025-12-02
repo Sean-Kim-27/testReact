@@ -22,6 +22,7 @@ function RegisterPage() {
       });
       // ... 요청 ...
       alert("가입 성공!");
+      navigate('/');
     } catch (err) {
       console.log(err);
       // ★★★ 백엔드가 보낸 에러 메시지(message)를 띄워준다 ★★★

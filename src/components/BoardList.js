@@ -25,15 +25,15 @@ function BoardList(userId) {
     // 2. 서버에서 글 목록 가져오기 (GET)
     const fetchBoards = async () => {
         try {
+            const dataList = [];
             const response = await axios.get('https://testspring-kmuc.onrender.com/api/boards', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
             // 스프링 부트 주소로 요청 날림
-
-            setBoards(response.data.id.sort()); // 가져온 데이터 바구니에 담기
-            console.log("데이터 가져오기 성공:", response.data.id.sort());
+            setBoards(response.data ? response.data.sort() : ''); // 가져온 데이터 바구니에 담기
+            // console.log("데이터 가져오기 성공:", response.data.sort());
             } catch (error) {
             console.error("에러 났다 씨발:", error);
             alert("서버랑 연결 안 됨. 백엔드 켜져있냐?");
@@ -52,11 +52,11 @@ function BoardList(userId) {
             
             // 🚨 2. 연결 성공 시 처리
             onConnect: () => {
-                console.log('웹소켓 연결 성공!');
+                // console.log('웹소켓 연결 성공!');
                 
                 // 3. '/topic/new-board' 채널 구독 시작
                 client.subscribe('/topic/new-board', (message) => {
-                    console.log('새 게시글 알림 수신, 목록 업데이트:', message.body);
+                    // console.log('새 게시글 알림 수신, 목록 업데이트:', message.body);
                     // 메시지가 오면 목록을 다시 불러와 화면을 최신화
                     fetchBoards(); 
                 });
@@ -67,7 +67,7 @@ function BoardList(userId) {
             
             // 4. 에러 처리
             onStompError: (frame) => {
-                console.error('웹소켓 에러:', frame);
+                // console.error('웹소켓 에러:', frame);
             },
         });
 
@@ -106,7 +106,7 @@ function BoardList(userId) {
                     Authorization: `Bearer ${token}`
                 }
             });
-            console.log(USERID);
+            // console.log(USERID);
             alert("저장 완료!");
             
             // 입력창 비우고 목록 다시 불러오기
