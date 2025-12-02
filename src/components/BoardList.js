@@ -10,7 +10,7 @@ import SockJS from 'sockjs-client';
 // 🚨🚨🚨 StompModule이라는 이름으로 임포트 후, 실제 Stomp 객체를 찾아서 Stomp 변수에 할당 🚨🚨🚨
 import { Client } from '@stomp/stompjs';
 
-console.log(Client);
+// console.log(Client);
 
 function BoardList(userId) {
     // 1. 상태 관리 (변수들)
@@ -31,8 +31,9 @@ function BoardList(userId) {
                 }
             });
             // 스프링 부트 주소로 요청 날림
-            setBoards(response.data); // 가져온 데이터 바구니에 담기
-            console.log("데이터 가져오기 성공:", response.data);
+
+            setBoards(response.data.id.sort()); // 가져온 데이터 바구니에 담기
+            console.log("데이터 가져오기 성공:", response.data.id.sort());
             } catch (error) {
             console.error("에러 났다 씨발:", error);
             alert("서버랑 연결 안 됨. 백엔드 켜져있냐?");
@@ -105,6 +106,7 @@ function BoardList(userId) {
                     Authorization: `Bearer ${token}`
                 }
             });
+            console.log(USERID);
             alert("저장 완료!");
             
             // 입력창 비우고 목록 다시 불러오기

@@ -1,16 +1,29 @@
 .register_container {
-    width: 100vw;
-    height: 100vh;
+    height: 600px;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .register_form {
-    width: 100%;
-    height: 100%;
+    width: 700px;
+    height: 550px;
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    box-shadow:
+        0px 0px 15px rgba(0, 0, 0, 0.373)
+    ;
+    border-radius: 20px;
+}
+
+.register_form > p {
+    padding: 25px 0px 25px 0px;
+    font-size: 32px;
 }
 
 .register_input {
@@ -28,4 +41,49 @@
     border: none;
     box-shadow: 0px 0px 2px black;
     cursor: pointer;
+    background-color: rgb(183, 222, 255);
+}
+
+.location_back {
+    width: 40px;
+    height: 40px;
+    /* background-color: black; */
+    position: absolute;
+    left: 50px;
+    top: 50px;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media screen and (max-width: 750px) {
+    .register_container {
+        width: 100%;
+        padding: 30px;
+    }
+    .register_form {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 530px) {
+    .register_form {
+        padding: 30px;
+    }
+
+    .register_form > p {
+        font-size: 24px;
+    }
+    .register_input, .register_submit_button {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 300px) {
+    .register_form > p {
+        font-size: 20px;
+    }
 }

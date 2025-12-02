@@ -7,6 +7,7 @@ ul, li {
     padding: 0px;
     box-sizing: border-box;
     user-select: none;
+    transition: .2s all;
 }
 
 body {
@@ -35,3 +36,11 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+@media screen and (max-width: 750px) {
+    .container {
+        width: 100vw;
+        padding: 30px;
+    }
+}
+

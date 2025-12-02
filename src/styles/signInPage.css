@@ -69,3 +69,32 @@
 .empty {
     opacity: 1;
 }
+
+@media screen and (max-width: 750px) {
+    .signIn_form {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .signIn_form {
+        padding: 20px;
+    }
+
+    .text_input {
+        width: 100%;
+    }
+
+    .signIn_form > p {
+        font-size: 24px;
+    }
+
+    .submit_button {
+        width: 100%;
+    }
+
+    .location_back {
+        left: 10%;
+        top: 5%;
+    }
+}

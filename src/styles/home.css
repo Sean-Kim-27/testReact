@@ -19,7 +19,7 @@
 }
 
 .menu_container {
-    width: 200px;
+    width: 300px;
     height: 100%;
     float: right;
     display: flex;
@@ -55,4 +55,25 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@media screen and (max-width: 750px) {
+    .notToken {
+        font-size: 50px;
+    }
+
+    .menu_container {
+        width: 200px;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .menu_container {
+        width: 200px;
+    }
+
+
+    .notToken {
+        font-size: 30px;
+    }
 }
