@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 function SignInPage({setUser}) {
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
-  const [token, setToken] = useState(localStorage.getItem('jwtToken'));
+  const [token, setToken] = useState(sessionStorage.getItem('jwtToken'));
   const navigate = useNavigate();
 
   // console.log(username);
@@ -30,7 +30,11 @@ function SignInPage({setUser}) {
         const { token, nickname } = request.data;
         setToken(token);
         
-        localStorage.setItem("jwtToken", token);
+        sessionStorage.setItem("jwtToken", token);
+        sessionStorage.setItem("userInfo", JSON.stringify({
+          nickname: nickname,
+          userId: userId
+        }));
         console.log(token)
         // 🚨 2. App.js의 user 상태를 업데이트!
         setUser({

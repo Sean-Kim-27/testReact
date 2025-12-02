@@ -4,14 +4,23 @@ import Home from './Home';
 import '../App.css'; // 스타일 좀 먹이자
 import '../styles/boardList.css';
 import '../styles/init.css';
+import SockJS from 'sockjs-client';
+// 🚨 기존: import Stomp from 'stompjs/lib/stomp'; (이걸 바꿔야 함)
 
-function BoardList({user, userId}) {
+// 🚨🚨🚨 StompModule이라는 이름으로 임포트 후, 실제 Stomp 객체를 찾아서 Stomp 변수에 할당 🚨🚨🚨
+import { Client } from '@stomp/stompjs';
+
+console.log(Client);
+
+function BoardList(userId) {
     // 1. 상태 관리 (변수들)
     const [boards, setBoards] = useState([]); // 게시글 목록 담을 바구니
     const [title, setTitle] = useState('');   // 제목 입력값
     const [content, setContent] = useState(''); // 내용 입력값
     // const [username, setUserName] = useState('');   // 작성자 입력값
-    const token = localStorage.getItem("jwtToken");
+    const token = sessionStorage.getItem("jwtToken");
+
+    const USERID = userId["userId"];
 
     // 2. 서버에서 글 목록 가져오기 (GET)
     const fetchBoards = async () => {
@@ -33,6 +42,43 @@ function BoardList({user, userId}) {
     // 화면 켜지자마자 글 목록 가져와라 (useEffect)
     useEffect(() => {
         fetchBoards();
+        const client = new Client({
+            // 🚨 1. 웹소켓 브로커 URL 지정
+            webSocketFactory: () => {
+                // SockJS를 사용해 https 주소로 연결 시도
+                return new SockJS('https://testspring-kmuc.onrender.com/ws');
+            },
+            
+            // 🚨 2. 연결 성공 시 처리
+            onConnect: () => {
+                console.log('웹소켓 연결 성공!');
+                
+                // 3. '/topic/boards' 채널 구독 시작
+                client.subscribe('/topic/boards', (message) => {
+                    console.log('새 게시글 알림 수신, 목록 업데이트:', message.body);
+                    // 메시지가 오면 목록을 다시 불러와 화면을 최신화
+                    fetchBoards(); 
+                });
+                
+                // 🚨 초기 로딩 시 목록 가져오기
+                fetchBoards(); 
+            },
+            
+            // 4. 에러 처리
+            onStompError: (frame) => {
+                console.error('웹소켓 에러:', frame);
+            },
+        });
+
+        // 5. 클라이언트 활성화 (연결 시작)
+        client.activate();
+
+        // 6. ⭐️ 컴포넌트가 종료될 때 연결 해제 (클린업)
+        return () => {
+            if (client) {
+                client.deactivate(); // 새 라이브러리에서는 deactivate()를 쓴다
+            }
+        };
     }, []);
 
     // 3. 글 쓰기 (POST)
@@ -53,7 +99,7 @@ function BoardList({user, userId}) {
             await axios.post('https://testspring-kmuc.onrender.com/api/boards', {
                 title: title,
                 content: content,
-                username: user
+                username: USERID
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -116,7 +162,11 @@ function BoardList({user, userId}) {
                         {boards.map((board) => (
                             <div key={board.id} className='list'>
                                 {
+<<<<<<< HEAD
                                     board.username === userId ? <i className="bi bi-trash-fill" id='board_remove_icon' data-board-id={board.id} onClick={handleRemoveBoard} /> : ''
+=======
+                                    board.username === USERID ? <i className="bi bi-trash-fill" id='board_remove_icon' data-board-id={board.id} onClick={handleRemoveBoard} /> : ''
+>>>>>>> dev
                                 }
                                 
                                 <h4>[{board.id}] {board.title}</h4>
