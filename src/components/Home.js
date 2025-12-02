@@ -7,7 +7,7 @@ import BoardList from './BoardList';
 
 function Home({user, setUser}) {
     const navigate = useNavigate();
-    const token = localStorage.getItem("jwtToken");
+    const token = sessionStorage.getItem("jwtToken");
 
 
     const handleSignIn = () => {
@@ -20,7 +20,7 @@ function Home({user, setUser}) {
     }
 
     const hangleLogOut = () => {
-        localStorage.removeItem('jwtToken');
+        sessionStorage.removeItem('jwtToken');
         setUser('');
     }
 
