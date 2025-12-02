@@ -162,11 +162,7 @@ function BoardList(userId) {
                         {boards.map((board) => (
                             <div key={board.id} className='list'>
                                 {
-<<<<<<< HEAD
-                                    board.username === userId ? <i className="bi bi-trash-fill" id='board_remove_icon' data-board-id={board.id} onClick={handleRemoveBoard} /> : ''
-=======
                                     board.username === USERID ? <i className="bi bi-trash-fill" id='board_remove_icon' data-board-id={board.id} onClick={handleRemoveBoard} /> : ''
->>>>>>> dev
                                 }
                                 
                                 <h4>[{board.id}] {board.title}</h4>
