@@ -132,7 +132,7 @@ function BoardList(userId) {
 
     return (
         <div className="board_container container" style={{ padding: '20px' }}>
-            <h1 className='board_head_Text'>💩 하수구 💩</h1>
+            {/* <h1 className='board_head_Text'>💩 하수구 💩</h1> */}
 
             {/* 글 쓰기 폼 */}
             <div className='write_form_container'>
