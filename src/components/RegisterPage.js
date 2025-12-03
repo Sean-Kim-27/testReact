@@ -14,19 +14,21 @@ function RegisterPage() {
 
   const RegisterCheck = async (e) => {
     e.preventDefault();
-
-    // console.log(nickname, userId, password);
     try {
       await axios.post('https://testspring-kmuc.onrender.com/auth/signup', {
         nickname: nickname,
         username: userId,
         password: password
       });
-
-      alert('회원가입 성공!');
+      // ... 요청 ...
+      alert("가입 성공!");
       navigate('/');
-    } catch(error) {
-      console.error(error);
+    } catch (err) {
+      console.log(err);
+      // ★★★ 백엔드가 보낸 에러 메시지(message)를 띄워준다 ★★★
+      // err.response.data.message가 없을 수도 있으니 안전하게 처리
+      const msg = err.response?.data?.message || "가입 실패. (서버 에러)";
+      alert(msg); 
     }
   }
 
@@ -42,6 +44,7 @@ function RegisterPage() {
         >
           <i className="bi bi-arrow-left"></i>
         </div>
+        <p>회원가입 쳐 해라</p>
         <input className='register_input' type='text' placeholder='이름을 입력하세요.' name='nickname'
         value={nickname}
         onChange={(e) => setNickname(e.target.value)}
