@@ -155,6 +155,7 @@
 .header_actions {
     display: flex;
     gap: 12px;
+    margin: 0px;
 }
 
 .btn_action {
