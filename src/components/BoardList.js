@@ -36,14 +36,11 @@ function BoardList(userId) {
                 }
             });
             // 스프링 부트 주소로 요청 날림
-<<<<<<< Updated upstream
             setBoards(response.data); // 가져온 데이터 바구니에 담기
             console.log("데이터 가져오기 성공:", response.data);
-=======
             // console.log(response.data);
             setBoards(response.data ? response.data.sort() : ''); // 가져온 데이터 바구니에 담기
             // console.log("데이터 가져오기 성공:", response.data.sort());
->>>>>>> Stashed changes
             } catch (error) {
             console.error("에러 났다 씨발:", error);
             alert("서버랑 연결 안 됨. 백엔드 켜져있냐?");
