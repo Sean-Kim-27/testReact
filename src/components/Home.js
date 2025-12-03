@@ -46,7 +46,7 @@ function Home({user, setUser}) {
         sessionStorage.removeItem('userInfo');
         sessionStorage.removeItem('jwtToken');
         setUser(null);
-        navigate('/signin');
+        navigate('/');
     };
 
     const formatDate = (dateString) => {
@@ -64,9 +64,18 @@ function Home({user, setUser}) {
                 
                 <nav className="sidebar_menu">
                     <ul>
-                        <li><a href="#" onClick={(e) => e.preventDefault()} className="active">홈</a></li>
-                        <li><a href="/boards" onClick={(e) => {e.preventDefault(); navigate('/boards');}}>게시판</a></li>
-                        <li><a href="#" onClick={() => alert('프로필 기능 준비중입니다.')}>프로필</a></li>
+                        <li><a href="#" onClick={(e) => e.preventDefault()} className="active">
+                            <span className="menu_icon">🏠</span>
+                            홈
+                        </a></li>
+                        <li><a href="/boards" onClick={(e) => {e.preventDefault(); navigate('/boards');}}>
+                            <span className="menu_icon">📋</span>
+                            게시판
+                        </a></li>
+                        <li><a href="#" onClick={() => alert('프로필 기능 준비중입니다.')}>
+                            <span className="menu_icon">👤</span>
+                            프로필
+                        </a></li>
                     </ul>
                 </nav>
                 
@@ -86,7 +95,7 @@ function Home({user, setUser}) {
                             <p style={{color: 'rgba(255,255,255,0.8)', fontSize: '14px', marginBottom: '12px'}}>
                                 로그인이 필요합니다
                             </p>
-                            <button className="logout_btn" onClick={() => navigate('/signin')}>
+                            <button className="logout_btn" onClick={() => navigate('/signInPage')}>
                                 로그인
                             </button>
                         </div>
@@ -132,8 +141,27 @@ function Home({user, setUser}) {
                                         >
                                             <div>
                                                 <div className="board_title">{board.title}</div>
-                                                <div style={{fontSize: '12px', color: '#94a3b8'}}>
-                                                    {board.author} • {formatDate(board.createdAt)}
+                                                <div style={{fontSize: '12px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '12px'}}>
+                                                    <span>{board.author || board.nickname}</span>
+                                                    <span>•</span>
+                                                    <span>{formatDate(board.createdAt)}</span>
+                                                    {(board.likes > 0 || board.comments > 0) && (
+                                                        <>
+                                                            <span>•</span>
+                                                            {board.likes > 0 && (
+                                                                <span style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
+                                                                    <span>❤️</span>
+                                                                    <span>{board.likes}</span>
+                                                                </span>
+                                                            )}
+                                                            {board.comments > 0 && (
+                                                                <span style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
+                                                                    <span>💬</span>
+                                                                    <span>{board.comments}</span>
+                                                                </span>
+                                                            )}
+                                                        </>
+                                                    )}
                                                 </div>
                                             </div>
                                             <div>
@@ -155,7 +183,7 @@ function Home({user, setUser}) {
                         <h3>로그인이 필요합니다</h3>
                         <p>게시판 기능을 이용하시려면 로그인해주세요.</p>
                         <button 
-                            onClick={() => navigate('/signin')}
+                            onClick={() => navigate('/signInPage')}
                             style={{
                                 marginTop: '16px',
                                 padding: '10px 20px',

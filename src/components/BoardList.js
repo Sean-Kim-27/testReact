@@ -24,7 +24,7 @@ function BoardList({ user, setUser }) {
             console.error("에러 발생:", error);
             if (error.response?.status === 401) {
                 alert("세션이 만료되었습니다. 다시 로그인해주세요.");
-                navigate('/signin');
+                navigate('/signInPage');
             }
         }
     };
@@ -33,9 +33,17 @@ function BoardList({ user, setUser }) {
         if (token) {
             fetchBoards();
         } else {
-            navigate('/signin');
+            navigate('/signInPage');
         }
     }, [token]);
+
+    const handleDelete = async (e) => {
+        try {
+
+        } catch(error) {
+
+        }
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -67,7 +75,7 @@ function BoardList({ user, setUser }) {
         sessionStorage.removeItem('userInfo');
         sessionStorage.removeItem('jwtToken');
         setUser(null);
-        navigate('/signin');
+        navigate('/');
     };
 
     const formatDate = (dateString) => {
@@ -86,9 +94,18 @@ function BoardList({ user, setUser }) {
                     
                     <nav className="sidebar_menu">
                         <ul>
-                            <li><a href="/">홈</a></li>
-                            <li><a href="/boards" className="active">게시판</a></li>
-                            <li><a href="#" onClick={() => alert('프로필 기능 준비중입니다.')}>프로필</a></li>
+                            <li><a href="/">
+                                <span className="menu_icon">🏠</span>
+                                홈
+                            </a></li>
+                            <li><a href="/boards" className="active">
+                                <span className="menu_icon">📋</span>
+                                게시판
+                            </a></li>
+                            <li><a href="#" onClick={() => alert('프로필 기능 준비중입니다.')}>
+                                <span className="menu_icon">👤</span>
+                                프로필
+                            </a></li>
                         </ul>
                     </nav>
                     
@@ -127,9 +144,18 @@ function BoardList({ user, setUser }) {
                 
                 <nav className="sidebar_menu">
                     <ul>
-                        <li><a href="/" onClick={(e) => {e.preventDefault(); navigate('/');}}>홈</a></li>
-                        <li><a href="/boards" className="active" onClick={(e) => e.preventDefault()}>게시판</a></li>
-                        <li><a href="#" onClick={() => alert('프로필 기능 준비중입니다.')}>프로필</a></li>
+                        <li><a href="/" onClick={(e) => {e.preventDefault(); navigate('/');}}>
+                            <span className="menu_icon">🏠</span>
+                            홈
+                        </a></li>
+                        <li><a href="/boards" className="active" onClick={(e) => e.preventDefault()}>
+                            <span className="menu_icon">📋</span>
+                            게시판
+                        </a></li>
+                        <li><a href="#" onClick={() => alert('프로필 기능 준비중입니다.')}>
+                            <span className="menu_icon">👤</span>
+                            프로필
+                        </a></li>
                     </ul>
                 </nav>
                 
@@ -149,7 +175,7 @@ function BoardList({ user, setUser }) {
                             <p style={{color: 'rgba(255,255,255,0.8)', fontSize: '14px', marginBottom: '12px'}}>
                                 로그인이 필요합니다
                             </p>
-                            <button className="logout_btn" onClick={() => navigate('/signin')}>
+                            <button className="logout_btn" onClick={() => navigate('/signInPage')}>
                                 로그인
                             </button>
                         </div>
@@ -196,19 +222,35 @@ function BoardList({ user, setUser }) {
                                             {board.nickname?.charAt(0)?.toUpperCase() || 'A'}
                                         </div>
                                         <div className="board_info">
-                                            <div>{board.nickname}</div>
                                             <div className="board_title">{board.title}</div>
                                             <div className="board_content">{board.content}</div>
                                             <div className="board_meta">
-                                                <span className="board_author">{board.author}</span>
+                                                <span className="board_author">{board.author || board.nickname}</span>
+                                                <span>•</span>
                                                 <span className="board_date">{formatDate(board.createdAt)}</span>
+                                                {(board.likeCount > 0 || board.commentCount > 0) && (
+                                                    <>
+                                                        <span>•</span>
+                                                        {board.likeCount > 0 && (
+                                                            <span style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
+                                                                <span>❤️</span>
+                                                                <span>{board.likeCount}</span>
+                                                            </span>
+                                                        )}
+                                                        {board.commentCount > 0 && (
+                                                            <span style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
+                                                                <span>💬</span>
+                                                                <span>{board.commentCount}</span>
+                                                            </span>
+                                                        )}
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
                                     <div className="board_item_right">
-                                        <div className="board_stats">
-                                            <span><i className="far fa-heart"></i> {board.likeCount || 0}</span>
-                                            <span><i className="far fa-comment"></i> {board.commentCount || 0}</span>
+                                        <div className="board_actions">
+                                            <button onClick={(e) => {e.stopPropagation(); handleDelete(board.id);}}>삭제</button>
                                         </div>
                                     </div>
                                 </div>
