@@ -8,6 +8,13 @@ import BoardList from './BoardList';
 function Home({user, setUser}) {
     const navigate = useNavigate();
     const token = sessionStorage.getItem("jwtToken");
+    const uerInfo = sessionStorage.getItem('userInfo');
+
+    if(!uerInfo) {
+        setUser(null);
+    }
+    console.log(user);
+    
 
     const handleSignIn = () => {
         navigate("/signInPage");
@@ -41,15 +48,15 @@ function Home({user, setUser}) {
                     </div>
                     <div className='nav_item'>
                         <i className="bi bi-file-text-fill"></i>
-                        <span>게시글</span>
+                        <span>미개발 기능</span>
                     </div>
                     <div className='nav_item'>
                         <i className="bi bi-bell-fill"></i>
-                        <span>알림</span>
+                        <span>미개발 기능</span>
                     </div>
                     <div className='nav_item'>
                         <i className="bi bi-gear-fill"></i>
-                        <span>설정</span>
+                        <span>미개발 기능</span>
                     </div>
                 </nav>
 
@@ -92,7 +99,7 @@ function Home({user, setUser}) {
                 </div>
 
                 {token ? (
-                    user ? <BoardList userId={user.userId} /> : <div className='notToken'>로딩 중...</div>
+                    user ? <BoardList userId={user.userId} setUser={setUser} /> : <div className='notToken'>로딩 중...</div>
                 ) : (
                     <div className='notToken'>
                         로그인이 필요합니다 🔐

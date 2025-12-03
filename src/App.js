@@ -31,7 +31,7 @@ function App() {
   return(
     <Routes>
       <Route path="/" element={<Home user={user} setUser={setUser} />} />
-      <Route path="/viewBoard/:boardId" element={<ViewBoard />} />
+      <Route path="/viewBoard/:boardId" element={<ViewBoard user={user} />} />
       <Route path="/registerPage" element={<RegisterPage />} />
       <Route path="/signInPage" element={<SignInPage setUser={setUser} />} />
     </Routes>

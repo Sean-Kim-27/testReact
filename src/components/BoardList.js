@@ -14,7 +14,7 @@ import { Client } from '@stomp/stompjs';
 
 // console.log(Client);
 
-function BoardList(userId) {
+function BoardList(userId, setUser) {
     // 1. 상태 관리 (변수들)
     const [boards, setBoards] = useState([]); // 게시글 목록 담을 바구니
     const [title, setTitle] = useState('');   // 제목 입력값
