@@ -8,6 +8,8 @@ import SignInPage from './components/SignInPage';
 
 
 function App() {
+  const body = document.querySelector('body');
+  // body.style.height = `${window.visualViewport.height}px`;
   const getInitialUser = () => {
     const userInfo = sessionStorage.getItem("userInfo");
     const jwtToken = sessionStorage.getItem("jwtToken");

@@ -11,10 +11,10 @@ ul, li {
 }
 
 body {
-    width: 100dvw;
-    height: 100dvh;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh; /* 동적 뷰포트 높이 */
     min-width: 100vw;
-    min-height: 100vh;
     position: relative;
     overflow: hidden;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);

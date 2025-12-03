@@ -1,6 +1,6 @@
 .Home_container {
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     display: flex;
     position: relative;
     background: #f5f6fa;
@@ -8,8 +8,8 @@
 
 /* 왼쪽 사이드바 */
 .sidebar {
-    width: 280px;
-    height: 100vh;
+    width: 200px;
+    height: 100%;
     background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
     padding: 30px 20px;
     display: flex;
@@ -99,6 +99,8 @@
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
+    overflow: hidden;
+    
 }
 
 .user_info:hover {
@@ -115,6 +117,7 @@
     justify-content: center;
     font-weight: 700;
     color: #667eea;
+    flex-shrink: 0;
 }
 
 .user_name {
@@ -122,13 +125,21 @@
     color: #ffffff;
     font-weight: 600;
     font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.logout_icon {
+    color: #ffffff;
+    flex-shrink: 0;
 }
 
 /* 메인 컨텐츠 영역 */
 .main_content {
-    margin-left: 280px;
-    width: calc(100% - 280px);
-    height: 100vh;
+    margin-left: 200px;
+    width: calc(100% - 200px);
+    height: 100%;
     overflow-y: auto;
     background: #f5f6fa;
 }
@@ -257,5 +268,21 @@
     .btn_action {
         padding: 8px 16px;
         font-size: 13px;
+    }
+    .sidebar_footer {
+        height: 100px;
+    }
+
+    .user_info {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        gap: 5px;
+    }
+
+    .user_avatar {
+        width: 30px;
+        height: 30px;
     }
 }

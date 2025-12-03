@@ -60,7 +60,7 @@ function Home({user, setUser}) {
                                 {user.nickname.charAt(0).toUpperCase()}
                             </div>
                             <span className='user_name'>{user.nickname}</span>
-                            <i className="bi bi-box-arrow-right" style={{color: '#ffffff'}}></i>
+                            <i className="bi bi-box-arrow-right logout_icon"></i>
                         </div>
                     ) : (
                         <div className='user_info' onClick={handleSignIn}>
