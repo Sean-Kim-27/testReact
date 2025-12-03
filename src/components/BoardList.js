@@ -5,6 +5,8 @@ import '../App.css'; // 스타일 좀 먹이자
 import '../styles/boardList.css';
 import '../styles/init.css';
 import SockJS from 'sockjs-client';
+import { useNavigate } from 'react-router-dom';
+import LikeButton from './LikeButton';
 // 🚨 기존: import Stomp from 'stompjs/lib/stomp'; (이걸 바꿔야 함)
 
 // 🚨🚨🚨 StompModule이라는 이름으로 임포트 후, 실제 Stomp 객체를 찾아서 Stomp 변수에 할당 🚨🚨🚨
@@ -19,8 +21,11 @@ function BoardList(userId) {
     const [content, setContent] = useState(''); // 내용 입력값
     // const [username, setUserName] = useState('');   // 작성자 입력값
     const token = sessionStorage.getItem("jwtToken");
+    const navigate = useNavigate();
 
     const USERID = userId["userId"];
+    let like_toggles = [];
+    let like_toggle = 0;
 
     // 2. 서버에서 글 목록 가져오기 (GET)
     const fetchBoards = async () => {
@@ -31,8 +36,14 @@ function BoardList(userId) {
                 }
             });
             // 스프링 부트 주소로 요청 날림
+<<<<<<< Updated upstream
             setBoards(response.data); // 가져온 데이터 바구니에 담기
             console.log("데이터 가져오기 성공:", response.data);
+=======
+            // console.log(response.data);
+            setBoards(response.data ? response.data.sort() : ''); // 가져온 데이터 바구니에 담기
+            // console.log("데이터 가져오기 성공:", response.data.sort());
+>>>>>>> Stashed changes
             } catch (error) {
             console.error("에러 났다 씨발:", error);
             alert("서버랑 연결 안 됨. 백엔드 켜져있냐?");
@@ -128,6 +139,10 @@ function BoardList(userId) {
         fetchBoards();
     }
 
+    const viewBoard = (boardId) => {
+        navigate(`/viewBoard/${boardId}`);
+    }
+
     return (
         <div className="board_container container" style={{ padding: '20px' }}>
             <h1 className='board_head_Text'>🔥 지존 게시판 🔥</h1>
@@ -167,7 +182,20 @@ function BoardList(userId) {
                                 
                                 <h4>[{board.id}] {board.title}</h4>
                                 <p>{board.content}</p>
-                                <small> 작성자: {board.nickname} | 시간: {board.createdAt}</small>
+                                <small> 작성자: {board.nickname} | 시간: {board.createdAt} | <span data-like-count={board.likeCount}>개추: {board.likeCount}</span></small>
+                                {
+                                    // <i data-board-id={board.id} onClick={fetchLike} className="bi bi-hand-thumbs-up" id='like_button' /> :
+                                    <LikeButton 
+                                        boardId={board.id} 
+                                        initialLikeCount={board.likeCount}
+                                        // ⚠️ isLiked 상태는 네 친구가 안 준다고 했으므로,
+                                        // 일단 'false'로 하드코딩하거나, 'users' API를 써야 함.
+                                        initialIsLiked={false} // <--- 현재 BE 제약사항 때문에 초기값은 일단 false로 둬야 함
+                                        token={token}
+                                        fetchBoards={fetchBoards}
+                                    />
+                                }
+                                <button data-board-id={board.id} onClick={() => viewBoard(board.id)}>상세조회</button>
                             </div>
                         ))}
                     </div>

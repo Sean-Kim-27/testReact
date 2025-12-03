@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Home from './components/Home';
-import BoardList from './components/BoardList';
 import {Routes, Route} from 'react-router-dom';
 import RegisterPage from './components/RegisterPage';
 import SignInPage from './components/SignInPage';
+import ViewBoard from './components/ViewBoard';
 
 
 function App() {
@@ -24,11 +24,12 @@ function App() {
   
   // 🚨 2. useState 초기값으로 함수 호출
   const [user, setUser] = useState(getInitialUser);
+  // const [board, setBoard] = useState();
 
   return(
     <Routes>
       <Route path="/" element={<Home user={user} setUser={setUser} />} />
-      {/* <Route path="/boardList" element={<BoardList id={id} />} /> */}
+      <Route path="/viewBoard/:boardId" element={<ViewBoard />} />
       <Route path="/registerPage" element={<RegisterPage />} />
       <Route path="/signInPage" element={<SignInPage setUser={setUser} />} />
     </Routes>

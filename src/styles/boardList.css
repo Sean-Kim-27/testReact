@@ -105,4 +105,95 @@
     position: absolute;
     right: 20px;
     cursor: pointer;
+<<<<<<< Updated upstream
+=======
+    color: #cbd5e0;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+#board_remove_icon:hover {
+    color: #f56565;
+    transform: scale(1.1);
+}
+
+#like_button {
+    cursor: pointer;
+}
+
+/* 반응형 */
+@media screen and (max-width: 1200px) {
+    .board_list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .list:nth-child(3n) {
+        border-right: 1px solid #e2e8f0;
+    }
+
+    .list:nth-child(2n) {
+        border-right: none;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .board_container {
+        padding: 20px;
+    }
+
+    .board_head_Text {
+        font-size: 24px;
+    }
+
+    .board_list {
+        grid-template-columns: 1fr;
+    }
+
+    .list {
+        border-right: none;
+    }
+
+    .write_form {
+        flex-direction: column;
+    }
+
+    .write_form > input {
+        width: 100%;
+    }
+
+    .write_button {
+        width: 100%;
+    }
+
+    .list_scroll {
+        max-height: calc(100vh - 450px);
+        max-height: calc(100dvh - 450px); /* 동적 뷰포트 높이 */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .board_container {
+        padding: 15px;
+    }
+
+    .write_form_container {
+        padding: 20px;
+    }
+
+    .board_head_Text {
+        font-size: 20px;
+    }
+
+    .list {
+        padding: 18px;
+    }
+
+    .list > h4 {
+        font-size: 15px;
+    }
+
+    .list > p {
+        font-size: 13px;
+    }
+>>>>>>> Stashed changes
 }
