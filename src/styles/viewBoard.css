@@ -1,0 +1,359 @@
+/* 게시판 상세보기 스타일 */
+#viewboard_container {
+    padding: 30px 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* 헤더 영역 */
+#viewboard_container > header {
+    margin-bottom: 30px;
+}
+
+#viewboard_container > header button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #667eea;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#viewboard_container > header button:before {
+    content: '←';
+    font-size: 18px;
+}
+
+#viewboard_container > header button:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    transform: translateX(-4px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* 게시물 컨텐츠 카드 */
+.board_content {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 24px;
+}
+
+.board_content_header {
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+}
+
+.board_title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 16px;
+    line-height: 1.4;
+}
+
+.board_meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 14px;
+    color: #64748b;
+}
+
+.board_author {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+}
+
+.author_avatar {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.board_date {
+    font-size: 13px;
+}
+
+.board_body {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #374151;
+    margin-bottom: 32px;
+}
+
+.board_body p {
+    margin-bottom: 16px;
+}
+
+.board_body p:last-child {
+    margin-bottom: 0;
+}
+
+.board_footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 24px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.board_stats {
+    display: flex;
+    gap: 24px;
+}
+
+.board_stat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #64748b;
+}
+
+.board_stat i {
+    color: #94a3b8;
+}
+
+.board_actions {
+    display: flex;
+    gap: 12px;
+}
+
+.board_actions button {
+    padding: 8px 16px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.board_actions button:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.board_actions button.delete {
+    color: #ef4444;
+    border-color: #fecaca;
+}
+
+.board_actions button.delete:hover {
+    background: #fef2f2;
+}
+
+/* 댓글 섹션 */
+.comments_section {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.comments_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.comments_header h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.comments_count {
+    font-size: 14px;
+    color: #64748b;
+    background: #f1f5f9;
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+.comment_form {
+    margin-bottom: 32px;
+}
+
+.comment_form textarea {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 100px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.comment_form textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+.comment_form_actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.comment_form_actions button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.comment_form_actions button[type="submit"] {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.comment_form_actions button[type="button"] {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.comment_form_actions button:hover {
+    transform: translateY(-1px);
+}
+
+/* 댓글 목록 */
+.comments_list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.comment_item {
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: 12px;
+    border-left: 4px solid #667eea;
+}
+
+.comment_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.comment_author {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.comment_author_avatar {
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 11px;
+}
+
+.comment_author_name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #2d3748;
+}
+
+.comment_date {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.comment_content {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #374151;
+    margin-bottom: 12px;
+}
+
+.comment_actions {
+    display: flex;
+    gap: 8px;
+}
+
+.comment_actions button {
+    padding: 4px 8px;
+    border: none;
+    background: transparent;
+    color: #94a3b8;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+}
+
+.comment_actions button:hover {
+    background: #e2e8f0;
+    color: #64748b;
+}
+
+.comment_actions button.delete {
+    color: #ef4444;
+}
+
+.comment_actions button.delete:hover {
+    background: #fee2e2;
+}
+
+/* 로딩 상태 */
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+/* 에러 상태 */
+.error {
+    text-align: center;
+    padding: 40px;
+    color: #ef4444;
+    font-size: 14px;
+}
+
+/* 빈 상태 */
+.empty_state {
+    text-align: center;
+    padding: 40px;
+    color: #94a3b8;
+    font-size: 14px;
+}

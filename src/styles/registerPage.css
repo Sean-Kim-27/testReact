@@ -1,3 +1,4 @@
+/* 회원가입 페이지 스타일 */
 .register_container {
     height: 600px;
     position: relative;
@@ -51,79 +52,101 @@
     color: #a0aec0;
 }
 
-.register_submit_button {
+.register_btn {
     width: 100%;
     height: 50px;
+    margin-top: 8px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
     border: none;
     border-radius: 10px;
-    cursor: pointer;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    font-weight: 600;
     font-size: 16px;
-    color: #ffffff;
-    margin-top: 10px;
+    font-weight: 600;
+    cursor: pointer;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
 }
 
-.register_submit_button:hover {
+.register_btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
 
-.register_submit_button:active {
+.register_btn:active {
     transform: translateY(0);
 }
 
-.location_back {
-    width: 40px;
-    height: 40px;
+.register_btn:disabled {
+    background: #cbd5e1;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.register_footer {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 14px;
+    color: #64748b;
+}
+
+.register_footer a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.register_footer a:hover {
+    text-decoration: underline;
+}
+
+/* 폼 검증 메시지 */
+.validation_message {
+    width: 100%;
+    padding: 8px 12px;
+    margin-top: -12px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    display: none;
+}
+
+.validation_message.error {
+    background: #fee2e2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+}
+
+.validation_message.success {
+    background: #d1fae5;
+    border: 1px solid #a7f3d0;
+    color: #059669;
+}
+
+.validation_message.show {
+    display: block;
+}
+
+/* 중복 확인 버튼 */
+.check_duplicate_btn {
     position: absolute;
-    left: 30px;
-    top: 30px;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 6px 12px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
     cursor: pointer;
-    z-index: 10;
-    font-size: 22px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    color: #4a5568;
     transition: all 0.3s ease;
 }
 
-.location_back:hover {
-    background: #edf2f7;
-    color: #2d3748;
+.check_duplicate_btn:hover {
+    background: #5a67d8;
 }
 
-@media screen and (max-width: 750px) {
-    .register_container {
-        width: 100%;
-        padding: 30px;
-    }
-    .register_form {
-        width: 100%;
-        max-width: 450px;
-    }
-}
-
-@media screen and (max-width: 530px) {
-    .register_form {
-        padding: 40px 30px;
-    }
-
-    .register_form > p {
-        font-size: 24px;
-        padding-bottom: 30px;
-    }
-    .register_input, .register_submit_button {
-        width: 100%;
-        height: 48px;
-    }
-}
-
-@media screen and (max-width: 300px) {
-    .register_form > p {
-        font-size: 20px;
-    }
+.input_wrapper {
+    position: relative;
+    width: 100%;
 }
