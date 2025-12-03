@@ -37,12 +37,9 @@ function BoardList(userId) {
                 }
             });
             // 스프링 부트 주소로 요청 날림
-<<<<<<< HEAD
             setBoards(response.data); // 가져온 데이터 바구니에 담기
             console.log("데이터 가져오기 성공:", response.data);
             // console.log(response.data);
-=======
->>>>>>> main
             setBoards(response.data ? response.data.sort() : ''); // 가져온 데이터 바구니에 담기
             // console.log("데이터 가져오기 성공:", response.data.sort());
             } catch (error) {

@@ -184,13 +184,10 @@
     transform: scale(1.1);
 }
 
-<<<<<<< HEAD
 #like_button {
     cursor: pointer;
 }
 
-=======
->>>>>>> main
 /* 반응형 */
 @media screen and (max-width: 1200px) {
     .board_list {
