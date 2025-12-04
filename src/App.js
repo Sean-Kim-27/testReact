@@ -20,6 +20,9 @@ function App() {
     }
     return null;
   };
+
+  let visibleHeight = window.innerHeight;
+  document.documentElement.style.setProperty('--vh', `${visibleHeight}px`);
   
   const [user, setUser] = useState(getInitialUser);
 

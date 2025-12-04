@@ -4,6 +4,13 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../styles/home.css';
 import '../styles/boardList.css';
+import SockJS from 'sockjs-client';
+// 🚨 기존: import Stomp from 'stompjs/lib/stomp'; (이걸 바꿔야 함)
+
+// 🚨🚨🚨 StompModule이라는 이름으로 임포트 후, 실제 Stomp 객체를 찾아서 Stomp 변수에 할당 🚨🚨🚨
+import { Client } from '@stomp/stompjs';
+
+// console.log(Client);
 
 function BoardList({ user, setUser }) {
     const [boards, setBoards] = useState([]);
@@ -40,9 +47,49 @@ function BoardList({ user, setUser }) {
     useEffect(() => {
         if (token) {
             fetchBoards();
+            const client = new Client({
+                // 🚨 1. 웹소켓 브로커 URL 지정
+                webSocketFactory: () => {
+                    // SockJS를 사용해 https 주소로 연결 시도
+                    return new SockJS('https://testspring-kmuc.onrender.com/ws');
+                },
+                
+                // 🚨 2. 연결 성공 시 처리
+                onConnect: () => {
+                    console.log('웹소켓 연결 성공!');
+                    // console.log(client);
+                    
+                    // 3. '/topic/boards' 채널 구독 시작
+                    client.subscribe('/topic/new-board', (message) => {
+                        console.log('새 게시글 알림 수신, 목록 업데이트:', message.body);
+                        // 메시지가 오면 목록을 다시 불러와 화면을 최신화
+                        fetchBoards(); 
+                    });
+                    
+                    // 🚨 초기 로딩 시 목록 가져오기
+                    fetchBoards(); 
+                },
+                
+                // 4. 에러 처리
+                onStompError: (frame) => {
+                    console.error('웹소켓 에러:', frame);
+                },
+            });
+
+            // 5. 클라이언트 활성화 (연결 시작)
+            client.activate();
+
+            // 6. ⭐️ 컴포넌트가 종료될 때 연결 해제 (클린업)
+            return () => {
+                if (client) {
+                    client.deactivate(); // 새 라이브러리에서는 deactivate()를 쓴다
+                }
+            };
         } else {
             navigate('/signInPage');
         }
+
+        
     }, [token]);
 
 
@@ -66,7 +113,7 @@ function BoardList({ user, setUser }) {
             
             setTitle('');
             setContent('');
-            fetchBoards();
+            // fetchBoards();
         } catch (error) {
             console.error("게시글 작성 실패:", error);
             alert("게시글 작성에 실패했습니다.");
