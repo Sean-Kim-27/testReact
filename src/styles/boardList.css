@@ -18,6 +18,11 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
+.slidebar {
+    height: 100%;
+    overflow-x: hidden;
+}
+
 .board_head_Text {
     font-size: 32px;
     font-weight: 700;
