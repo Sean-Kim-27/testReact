@@ -30,7 +30,7 @@ function Home({user, setUser}) {
             });
             
             const boards = response.data || [];
-            const recentBoards = boards.sort((a, b) => {return b.likeCount - a.likeCount}).slice(3);
+            const recentBoards = boards.sort((a, b) => {return b.likeCount - a.likeCount}).slice(0, 3);
             console.log(recentBoards);
             
             setStats({
