@@ -7,124 +7,121 @@
     background: #f5f6fa;
 }
 
-/* 왼쪽 사이드바 */
+/* 기본 사이드바 스타일 개선 */
 .sidebar {
-    width: 200px;
-    height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 24px 20px;
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    left: 0;
-    top: 0;
-    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
-    z-index: 1000;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
 }
 
 .sidebar_header {
-    text-align: center;
-    padding: 20px 0 30px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    margin-bottom: 24px;
+    flex-shrink: 0 !important;
 }
 
 .sidebar_logo {
-    width: 80px;
-    height: 80px;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 50%;
-    margin: 0 auto 16px auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 40px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0 !important;
 }
 
 .sidebar_title {
-    font-size: 24px;
-    font-weight: 700;
-    color: #ffffff;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    word-wrap: break-word !important;
+    text-align: center !important;
+}
+
+.sidebar_subtitle {
+    word-wrap: break-word !important;
+    text-align: center !important;
+}
+
+.sidebar_nav {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    padding: 10px 0 !important;
+}
+
+.nav_item {
+    display: flex !important;
+    align-items: center !important;
+    white-space: nowrap !important;
 }
 
 .sidebar_menu {
-    flex: 1;
+    flex: 1 !important;
+    overflow-y: auto !important;
 }
 
 .sidebar_menu ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
 }
 
 .sidebar_menu li {
-    margin-bottom: 6px;
+    flex-shrink: 0 !important;
 }
 
 .sidebar_menu a {
-    display: flex;
-    align-items: center;
-    padding: 12px 16px;
-    color: rgba(255, 255, 255, 0.85);
-    text-decoration: none;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 4px;
-    gap: 12px;
-}
-
-.sidebar_menu a:hover,
-.sidebar_menu a.active {
-    background: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-    transform: translateX(6px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex !important;
+    align-items: center !important;
+    white-space: nowrap !important;
 }
 
 .sidebar_footer {
-    padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    flex-shrink: 0 !important;
+    margin-top: auto !important;
 }
 
 .user_info {
-    text-align: center;
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 13px;
-    margin-bottom: 12px;
-    font-weight: 500;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
 .logout_btn {
-    width: 100%;
-    padding: 10px 12px;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    color: #ffffff;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 12px;
-    font-weight: 500;
+    width: 100% !important;
+    text-align: center !important;
 }
 
-.logout_btn:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
+/* 데스크탑 */
+@media screen and (min-width: 769px) {
+    .sidebar {
+        width: 200px !important;
+        padding: 20px 15px !important;
+    }
 
-.menu_icon {
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    opacity: 0.9;
+    .sidebar_logo {
+        width: 70px !important;
+        height: 70px !important;
+        font-size: 36px !important;
+        margin: 0 auto 12px auto !important;
+    }
+
+    .sidebar_title {
+        font-size: 20px !important;
+        margin-bottom: 0 !important;
+    }
+
+    .sidebar_menu a {
+        font-size: 13px !important;
+        padding: 10px 12px !important;
+        gap: 10px !important;
+    }
+
+    .menu_icon {
+        font-size: 15px !important;
+        width: 16px !important;
+        height: 16px !important;
+        flex-shrink: 0 !important;
+    }
+
+    .user_info {
+        font-size: 12px !important;
+        padding: 8px !important;
+    }
+
+    .logout_btn {
+        font-size: 11px !important;
+        padding: 8px 10px !important;
+    }
 }
 
 /* 메인 콘텐츠 */
@@ -241,21 +238,566 @@
     background: #edf2f7;
     transform: translateX(4px);
 }
+.Home_container {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh; /* 동적 뷰포트 높이 */
+    display: flex;
+    position: relative;
+    background: #f5f6fa;
+}
 
-.board_title {
+/* 왼쪽 사이드바 */
+.sidebar {
+    width: 280px;
+    height: 100vh;
+    height: 100dvh; /* 동적 뷰포트 높이 */
+    background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 0;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.sidebar_header {
+    text-align: center;
+    padding: 20px 0 40px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 30px;
+}
+
+.sidebar_logo {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    margin: 0 auto 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.sidebar_title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.sidebar_subtitle {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+}
+
+.sidebar_nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.nav_item {
+    padding: 14px 20px;
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.9);
     font-weight: 600;
-    color: #2d3748;
     font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-.board_date {
-    font-size: 13px;
-    color: #a0aec0;
+.nav_item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(4px);
 }
 
-.empty_state {
+.nav_item.active {
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar_footer {
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.user_info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.user_info:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.user_avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #667eea;
+    flex-shrink: 0;
+}
+
+.user_name {
+    flex: 1;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.logout_icon {
+    color: #ffffff;
+    flex-shrink: 0;
+}
+
+/* 메인 컨텐츠 영역 */
+.main_content {
+    margin-left: 280px;
+    width: calc(100% - 280px);
+    height: 100vh;
+    height: 100dvh; /* 동적 뷰포트 높이 */
+    overflow-y: auto;
+    background: #f5f6fa;
+}
+
+
+
+.content_header {
+    background: #ffffff;
+    padding: 20px 40px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.content_title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2d3748;
+}
+
+.content_content_text {
+    margin: 10px 0px 10px 0px;
+}
+
+
+.header_actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn_action {
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn_primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.btn_primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
+.btn_secondary {
+    background: transparent;
+    color: #667eea;
+    border: 2px solid #667eea;
+}
+
+.btn_secondary:hover {
+    background: rgba(102, 126, 234, 0.1);
+}
+
+.notToken {
+    height: 100vh;
+    height: 100dvh; /* 동적 뷰포트 높이 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+    font-weight: 700;
+    color: #4a5568;
     text-align: center;
     padding: 40px;
-    color: #a0aec0;
-    font-size: 14px;
+}
+
+/* 기존 home.css에 추가할 모바일 반응형 스타일 */
+
+/* 통계 카드 모바일 */
+@media screen and (max-width: 768px) {
+    .stats_container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .stat_card {
+        padding: 20px;
+    }
+
+    .stat_icon {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        margin-bottom: 12px;
+    }
+
+    .stat_number {
+        font-size: 24px;
+        margin-bottom: 6px;
+    }
+
+    .stat_label {
+        font-size: 12px;
+    }
+
+    .recent_boards {
+        padding: 24px;
+    }
+
+    .recent_boards h2 {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .recent_board_item {
+        padding: 14px 16px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .board_title {
+        font-size: 14px;
+    }
+
+    .board_date {
+        font-size: 11px;
+    }
+
+    .sidebar_menu a {
+        padding: 10px;
+        font-size: 13px;
+        gap: 8px;
+    }
+
+    .menu_icon {
+        width: 18px;
+        height: 18px;
+        font-size: 14px;
+    }
+
+    .user_info {
+        font-size: 11px;
+        margin-bottom: 10px;
+    }
+
+    .logout_btn {
+        padding: 8px 10px;
+        font-size: 11px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .stats_container {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .stat_card {
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .stat_icon {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+        margin: 0;
+    }
+
+    .stat_number {
+        font-size: 20px;
+        text-align: left;
+    }
+
+    .stat_label {
+        font-size: 11px;
+        text-align: left;
+    }
+
+    .recent_boards {
+        padding: 20px;
+        border-radius: 12px;
+    }
+
+    .recent_boards h2 {
+        font-size: 18px;
+    }
+
+    .recent_board_item {
+        padding: 12px;
+    }
+
+    .content_header h1 {
+        font-size: 28px;
+        margin-bottom: 8px;
+    }
+
+    .content_header p {
+        font-size: 14px;
+    }
+
+    .sidebar {
+        width: 70px !important;
+        padding: 15px 8px !important;
+    }
+
+    .sidebar_header {
+        padding: 8px 0 15px 0 !important;
+        margin-bottom: 15px !important;
+    }
+
+    .sidebar_logo {
+        width: 45px !important;
+        height: 45px !important;
+        font-size: 22px !important;
+        margin: 0 auto 8px auto !important;
+    }
+
+    .sidebar_title {
+        display: none !important;
+    }
+
+    .sidebar_subtitle {
+        display: none !important;
+    }
+
+    .sidebar_menu a {
+        padding: 10px 8px !important;
+        justify-content: center !important;
+        font-size: 18px !important;
+    }
+
+    .sidebar_menu a span:not(.menu_icon) {
+        display: none !important;
+    }
+
+    .menu_icon {
+        font-size: 18px !important;
+        margin: 0 !important;
+    }
+
+    .user_info {
+        padding: 10px 5px !important;
+        font-size: 7px !important;
+        flex-direction: column !important;
+        gap: 5px !important;
+    }
+
+    .user_info > div:last-child {
+        display: none !important;
+    }
+
+    .logout_btn {
+        font-size: 10px !important;
+        padding: 7px 5px !important;
+    }
+
+    .main_content {
+        margin-left: 65px !important;
+        width: calc(100% - 65px) !important;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .sidebar {
+        width: 60px !important;
+        padding: 12px 5px !important;
+    }
+
+    .sidebar_header {
+        padding: 5px 0 12px 0 !important;
+        margin-bottom: 12px !important;
+    }
+
+    .sidebar_logo {
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 20px !important;
+        margin: 0 auto 5px auto !important;
+    }
+
+    .sidebar_menu {
+        padding: 0 3px !important;
+    }
+
+    .sidebar_menu a {
+        padding: 8px 5px !important;
+        font-size: 14px !important;
+        border-radius: 6px !important;
+        margin-bottom: 3px !important;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .menu_icon {
+        font-size: 16px !important;
+    }
+
+    .user_info {
+        padding: 8px 3px !important;
+    }
+
+    .logout_btn {
+        font-size: 9px !important;
+        padding: 6px 4px !important;
+    }
+
+    .main_content {
+        margin-left: 55px !important;
+        width: calc(100% - 55px) !important;
+    }
+
+    .content_header {
+        padding: 12px 10px;
+        margin-bottom: 16px;
+    }
+
+    .content_header h1 {
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+
+    .content_header p {
+        font-size: 12px;
+    }
+
+    .stats_container {
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+
+    .stat_card {
+        padding: 12px;
+        gap: 12px;
+        border-radius: 12px;
+    }
+
+    .stat_icon {
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+    }
+
+    .stat_number {
+        font-size: 18px;
+    }
+
+    .stat_label {
+        font-size: 10px;
+    }
+
+    .recent_boards {
+        padding: 16px;
+        border-radius: 10px;
+    }
+
+    .recent_boards h2 {
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+
+    .recent_board_item {
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    .content_title {
+        font-size: 13px;
+        margin-bottom: 4px;
+    }
+
+    .content_text {
+        font-size: 11px;
+        margin: 4px 0;
+        line-height: 1.4;
+    }
+
+    .content_area_container {
+        font-size: 10px !important;
+        gap: 6px !important;
+        flex-wrap: wrap;
+    }
+
+    .content_area_container > span {
+        font-size: 10px !important;
+    }
+
+    .viewBoard_text {
+        font-size: 10px;
+        margin-top: 4px;
+    }
+
+    .empty_state {
+        padding: 30px 15px;
+        font-size: 12px;
+    }
+
+    .empty_state h3 {
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+
+    .empty_state p {
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+
+    .empty_state button {
+        padding: 8px 16px !important;
+        font-size: 12px !important;
+        border-radius: 6px !important;
+    }
 }

@@ -140,9 +140,10 @@ function Home({user, setUser}) {
                                             className="recent_board_item"
                                             onClick={() => navigate(`/viewBoard/${board.id}`)}
                                         >
-                                            <div>
-                                                <div className="board_title">{board.title}</div>
-                                                <div style={{fontSize: '12px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '12px'}}>
+                                            <div className='board_container'>
+                                                <div className="content_title">{board.title}</div>
+                                                <div className='content_text'>{board.content}</div>
+                                                <div className='content_area_container' style={{fontSize: '12px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '12px'}}>
                                                     <span>{board.author || board.nickname}</span>
                                                     <span>•</span>
                                                     <span>{formatDate(board.createdAt)}</span>
@@ -165,7 +166,7 @@ function Home({user, setUser}) {
                                                     )}
                                                 </div>
                                             </div>
-                                            <div>
+                                            <div className='viewBoard_text'>
                                                 <span style={{color: '#667eea'}}>자세히 보기 →</span>
                                             </div>
                                         </div>

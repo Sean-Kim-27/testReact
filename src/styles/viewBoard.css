@@ -601,3 +601,495 @@
     color: #94a3b8;
     font-size: 14px;
 }
+
+/* 기존 viewBoard.css에 추가할 모바일 반응형 스타일 */
+
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+        padding: 20px 10px;
+    }
+
+    .sidebar_header {
+        padding: 10px 0 20px 0;
+    }
+
+    .sidebar_logo {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+
+    .sidebar_title {
+        display: none;
+    }
+
+    .sidebar_menu ul {
+        padding: 0;
+    }
+
+    .sidebar_menu a {
+        padding: 10px;
+        justify-content: center;
+    }
+
+    .sidebar_menu a span:not(.menu_icon) {
+        display: none;
+    }
+
+    .menu_icon {
+        margin: 0;
+    }
+
+    .user_info {
+        text-align: center;
+        font-size: 10px;
+    }
+
+    .user_info > div:last-child {
+        display: none;
+    }
+
+    .logout_btn {
+        padding: 8px;
+        font-size: 10px;
+    }
+
+    .main_content {
+        margin-left: 70px;
+        padding: 20px 15px;
+    }
+
+    #viewboard_container {
+        padding: 20px 15px;
+    }
+
+    #viewboard_container > header {
+        margin-bottom: 20px;
+    }
+
+    #viewboard_container > header button {
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+
+    .board_content {
+        padding: 24px;
+        border-radius: 12px;
+    }
+
+    .board_title {
+        font-size: 20px;
+        margin-bottom: 12px;
+    }
+
+    .board_meta {
+        /* flex-direction: column; */
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+    }
+
+    .board_body {
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 24px;
+    }
+
+    .action_buttons {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .action_buttons button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .delete_container,
+    .update_container {
+        position: static;
+        width: 100%;
+    }
+
+    .delete_container button,
+    .update_container button {
+        width: 100%;
+    }
+
+    .comments_section {
+        padding: 24px;
+        border-radius: 12px;
+    }
+
+    .comments_header h3 {
+        font-size: 16px;
+    }
+
+    .comment_form textarea {
+        padding: 14px;
+        font-size: 13px;
+        min-height: 80px;
+    }
+
+    .comment_form_actions button {
+        padding: 6px 14px;
+        font-size: 12px;
+    }
+
+    .comment_item {
+        padding: 16px;
+    }
+
+    .comment_author_name {
+        font-size: 13px;
+    }
+
+    .comment_date {
+        font-size: 11px;
+    }
+
+    .comment_content {
+        font-size: 13px;
+    }
+
+    .edit_button_container {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .update_title,
+    .edit_content_textarea {
+        font-size: 13px;
+        padding: 12px;
+    }
+
+    .update_button,
+    .update_cancel_button {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .sidebar {
+        width: 60px;
+        padding: 15px 5px;
+    }
+
+    .sidebar_logo {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+
+    .sidebar_menu a {
+        padding: 8px;
+    }
+
+    .menu_icon {
+        font-size: 16px;
+    }
+
+    .main_content {
+        margin-left: 60px;
+        padding: 15px 10px;
+    }
+
+    #viewboard_container {
+        padding: 15px 10px;
+    }
+
+    #viewboard_container > header button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .board_content {
+        padding: 20px;
+    }
+
+    .board_title {
+        font-size: 18px;
+    }
+
+    .board_meta {
+        font-size: 11px;
+    }
+
+    .board_body {
+        font-size: 13px;
+    }
+
+    .likeButton_Container {
+        font-size: 12px;
+    }
+
+    #liked_button {
+        font-size: 20px;
+    }
+
+    .comments_section {
+        padding: 20px;
+    }
+
+    .comments_header h3 {
+        font-size: 15px;
+    }
+
+    .comment_form textarea {
+        padding: 12px;
+        min-height: 70px;
+        font-size: 12px;
+    }
+
+    .comment_item {
+        padding: 14px;
+    }
+
+    .comment_author_avatar {
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
+    }
+
+    .comment_author_name {
+        font-size: 12px;
+    }
+
+    .comment_content {
+        font-size: 12px;
+    }
+
+    .update_title {
+        min-height: 40px;
+    }
+
+    .edit_content_textarea {
+        min-height: 80px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .sidebar {
+        width: 55px;
+        padding: 12px 5px;
+    }
+
+    .sidebar_logo {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+
+    .sidebar_menu a {
+        padding: 7px;
+        border-radius: 6px;
+    }
+
+    .menu_icon {
+        font-size: 15px;
+    }
+
+    .logout_btn {
+        padding: 6px;
+        font-size: 9px;
+    }
+
+    .main_content {
+        margin-left: 55px;
+        width: calc(100% - 55px);
+        padding: 12px 8px;
+    }
+
+    #viewboard_container {
+        padding: 12px 8px;
+        max-width: 100%;
+    }
+
+    #viewboard_container > header {
+        margin-bottom: 16px;
+    }
+
+    #viewboard_container > header button {
+        padding: 6px 10px;
+        font-size: 11px;
+        border-radius: 8px;
+    }
+
+    #viewboard_container > header button:before {
+        font-size: 14px;
+    }
+
+    .board_content {
+        padding: 16px;
+        border-radius: 10px;
+        margin-bottom: 16px;
+    }
+
+    .board_title {
+        font-size: 16px;
+        margin-bottom: 10px;
+        line-height: 1.3;
+    }
+
+    .board_meta {
+        gap: 6px;
+        font-size: 10px;
+    }
+
+    .board_meta small {
+        font-size: 10px;
+    }
+
+    .edit_board_meta {
+        margin: 8px 0;
+        gap: 6px;
+        font-size: 10px;
+    }
+
+    .board_body {
+        font-size: 12px;
+        line-height: 1.5;
+        margin-bottom: 16px;
+    }
+
+    .action_buttons {
+        gap: 6px;
+        flex-direction: column;
+    }
+
+    .comments_count {
+        font-size: 11px;
+        padding: 3px 10px;
+        white-space: nowrap;
+    }
+
+    .likeButton_Container {
+        width: 100%;
+        font-size: 11px;
+        justify-content: flex-start;
+    }
+
+    .likeButton_Container > p {
+        padding-top: 8px;
+        font-size: 11px;
+    }
+
+    #liked_button {
+        font-size: 18px;
+        margin-left: 4px;
+    }
+
+    .delete_container,
+    .update_container {
+        position: static;
+        width: 100%;
+    }
+
+    .delete_container button,
+    .update_container button {
+        width: 100%;
+        padding: 6px 12px;
+        font-size: 11px;
+    }
+
+    .comments_section {
+        padding: 16px;
+        border-radius: 10px;
+    }
+
+    .comments_header {
+        margin-bottom: 16px;
+    }
+
+    .comments_header h3 {
+        font-size: 14px;
+    }
+
+    .comment_form {
+        margin-bottom: 20px;
+    }
+
+    .comment_form textarea {
+        padding: 10px;
+        min-height: 60px;
+        font-size: 11px;
+        border-radius: 8px;
+    }
+
+    .comment_form_actions {
+        gap: 8px;
+        margin-top: 8px;
+    }
+
+    .comment_form_actions button {
+        padding: 6px 12px;
+        font-size: 11px;
+        border-radius: 6px;
+    }
+
+    .comment_item {
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+    }
+
+    .comment_header {
+        margin-bottom: 8px;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .comment_author {
+        gap: 6px;
+    }
+
+    .comment_author_avatar {
+        width: 20px;
+        height: 20px;
+        font-size: 9px;
+    }
+
+    .comment_author_name {
+        font-size: 11px;
+    }
+
+    .comment_date {
+        font-size: 10px;
+    }
+
+    .comment_content {
+        font-size: 11px;
+        line-height: 1.5;
+        margin-bottom: 8px;
+    }
+
+    .edit_button_container {
+        padding-top: 8px;
+        gap: 6px;
+    }
+
+    .update_title {
+        min-height: 36px;
+        padding: 8px;
+        font-size: 12px;
+        border-radius: 8px;
+    }
+
+    .edit_content_textarea {
+        min-height: 70px;
+        padding: 10px;
+        font-size: 11px;
+        border-radius: 8px;
+    }
+
+    .update_button,
+    .update_cancel_button {
+        width: 100%;
+        padding: 8px 12px;
+        font-size: 11px;
+        border-radius: 6px;
+    }
+}
