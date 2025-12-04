@@ -1,30 +1,28 @@
 /* 좋아요 버튼 스타일 */
+
+
+.likeButton_Container {
+    width: 120px;
+    /* height: 50px; */
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
 #liked_button {
-    font-size: 13px;
+    font-size: 24px;
     margin-left: 5px;
     cursor: pointer;
 }
 
-.liked_button_container {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
+.likeButton_Container > p {
+    padding-top: 10px;
 }
 
-.liked_button_container i {
-    color: #e53e3e;
-    transition: all 0.3s ease;
+.likeButton_Container > * {
+    margin: 0px;
 }
 
-.liked_button_container.liked i {
-    color: #e53e3e;
-    transform: scale(1.2);
-}
-
-.liked_button_container:not(.liked) i {
-    color: #a0aec0;
-}
-
-.liked_button_container:hover i {
-    transform: scale(1.1);
+.bi-hand-thumbs-up-fill {
+    color: rgb(224, 0, 0);
 }

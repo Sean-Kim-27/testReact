@@ -76,7 +76,7 @@ function SignInPage({setUser}) {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         ></input>
-        <button type='submit' className='submit_button'>로그인</button>
+        <button type='submit' className='signIn_btn'>로그인</button>
         <div className='empty_input'>다 쳐 적어라</div>
       </form>
     </div>

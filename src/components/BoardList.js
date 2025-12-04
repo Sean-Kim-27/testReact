@@ -12,6 +12,7 @@ function BoardList({ user, setUser }) {
     const token = sessionStorage.getItem("jwtToken");
     const navigate = useNavigate();
 
+    // console.log(user);
     const fetchBoards = async () => {
         try {
             const response = await axios.get('https://testspring-kmuc.onrender.com/api/boards', {
@@ -19,7 +20,14 @@ function BoardList({ user, setUser }) {
                     Authorization: `Bearer ${token}`
                 }
             });
-            setBoards(response.data ? response.data.sort() : []);
+            setBoards(response.data ? response.data.sort((a, b) => {
+                // 1. 날짜 문자열을 Date 객체로 변환 (getTime()을 호출하면 숫자로 변환됨)
+                const dateA = new Date(a.createdAt);
+                const dateB = new Date(b.createdAt);
+                
+                // 2. b에서 a를 빼면, b(더 최신 날짜)가 앞으로 오게 됨 (내림차순)
+                return dateB.getTime() - dateA.getTime();
+            }) : []);
         } catch (error) {
             console.error("에러 발생:", error);
             if (error.response?.status === 401) {
@@ -37,13 +45,7 @@ function BoardList({ user, setUser }) {
         }
     }, [token]);
 
-    const handleDelete = async (e) => {
-        try {
 
-        } catch(error) {
-
-        }
-    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -110,15 +112,27 @@ function BoardList({ user, setUser }) {
                     </nav>
                     
                     <div className="sidebar_footer">
+                    {user ? (
+                        <>
+                            <div className="user_info">
+                                <div>👋 {user.nickname}님</div>
+                                <div style={{fontSize: '12px', color: 'rgba(255,255,255,0.7)'}}>환영합니다!</div>
+                            </div>
+                            <button className="logout_btn" onClick={handleLogout}>
+                                로그아웃
+                            </button>
+                        </>
+                    ) : (
                         <div style={{textAlign: 'center'}}>
                             <p style={{color: 'rgba(255,255,255,0.8)', fontSize: '14px', marginBottom: '12px'}}>
                                 로그인이 필요합니다
                             </p>
-                            <button className="logout_btn" onClick={() => navigate('/signin')}>
+                            <button className="logout_btn" onClick={() => navigate('/signInPage')}>
                                 로그인
                             </button>
                         </div>
-                    </div>
+                    )}
+                </div>
                 </div>
 
                 <div className="main_content">
@@ -228,7 +242,7 @@ function BoardList({ user, setUser }) {
                                                 <span className="board_author">{board.author || board.nickname}</span>
                                                 <span>•</span>
                                                 <span className="board_date">{formatDate(board.createdAt)}</span>
-                                                {(board.likeCount > 0 || board.commentCount > 0) && (
+                                                {(board.likeCount > 0 || board.comments.length > 0) && (
                                                     <>
                                                         <span>•</span>
                                                         {board.likeCount > 0 && (
@@ -237,20 +251,16 @@ function BoardList({ user, setUser }) {
                                                                 <span>{board.likeCount}</span>
                                                             </span>
                                                         )}
-                                                        {board.commentCount > 0 && (
+                                                        {board.comments.length > 0 && (
                                                             <span style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
                                                                 <span>💬</span>
-                                                                <span>{board.commentCount}</span>
+                                                                <span>{board.comments.length }</span>
                                                             </span>
                                                         )}
                                                     </>
                                                 )}
+                                                
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div className="board_item_right">
-                                        <div className="board_actions">
-                                            <button onClick={(e) => {e.stopPropagation(); handleDelete(board.id);}}>삭제</button>
                                         </div>
                                     </div>
                                 </div>

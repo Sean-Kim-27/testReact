@@ -24,6 +24,13 @@
     padding: 50px 40px;
 }
 
+.location_back > i {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    cursor: pointer;
+}
+
 .signIn_form > p {
     padding: 0 0 40px 0;
     font-size: 32px;

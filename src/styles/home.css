@@ -133,7 +133,8 @@
     margin-left: 200px;
     padding: 32px 40px;
     background: #f5f6fa;
-    min-height: 100vh;
+    /* min-height: 100vh; */
+    overflow-y: scroll;
 }
 
 .content_header {

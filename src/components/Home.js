@@ -30,7 +30,8 @@ function Home({user, setUser}) {
             });
             
             const boards = response.data || [];
-            const recentBoards = boards.slice(-5).reverse(); // 최근 5개
+            const recentBoards = boards.sort((a, b) => {return b.likeCount - a.likeCount});
+            console.log(recentBoards);
             
             setStats({
                 totalBoards: boards.length,
@@ -130,7 +131,7 @@ function Home({user, setUser}) {
                         </div>
 
                         <div className="recent_boards">
-                            <h2>최근 게시물</h2>
+                            <h2>베스트 똥 TOP3</h2>
                             <div className="recent_boards_list">
                                 {stats.recentBoards.length > 0 ? (
                                     stats.recentBoards.map((board) => (
@@ -145,19 +146,19 @@ function Home({user, setUser}) {
                                                     <span>{board.author || board.nickname}</span>
                                                     <span>•</span>
                                                     <span>{formatDate(board.createdAt)}</span>
-                                                    {(board.likes > 0 || board.comments > 0) && (
+                                                    {(board.likeCount > 0 || board.comments.length > 0) && (
                                                         <>
                                                             <span>•</span>
-                                                            {board.likes > 0 && (
+                                                            {board.likeCount > 0 && (
                                                                 <span style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
                                                                     <span>❤️</span>
-                                                                    <span>{board.likes}</span>
+                                                                    <span>{board.likeCount}</span>
                                                                 </span>
                                                             )}
-                                                            {board.comments > 0 && (
+                                                            {board.comments.length > 0 && (
                                                                 <span style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
                                                                     <span>💬</span>
-                                                                    <span>{board.comments}</span>
+                                                                    <span>{board.comments.length}</span>
                                                                 </span>
                                                             )}
                                                         </>
@@ -194,8 +195,22 @@ function Home({user, setUser}) {
                                 cursor: 'pointer'
                             }}
                         >
-                            로그인하기
+                        
+                            로그인
                         </button>
+                        <button 
+                            onClick={() => navigate('/registerPage')}
+                            style={{
+                                marginTop: '16px',
+                                padding: '10px 20px',
+                                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '8px',
+                                cursor: 'pointer',
+                                marginLeft: '10px'
+                            }}
+                        >회원가입</button>
                     </div>
                 )}
             </div>

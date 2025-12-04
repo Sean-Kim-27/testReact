@@ -57,7 +57,7 @@ function RegisterPage() {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         />
-        <button type='submit' className='register_submit_button'>회원가입</button>
+        <button type='submit' className='register_btn'>회원가입</button>
       </form>
     </div>
   )
