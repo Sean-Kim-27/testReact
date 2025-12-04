@@ -26,7 +26,7 @@
 
 .location_back > i {
     position: absolute;
-    top: 10%;
+    top: 5%;
     left: 10%;
     cursor: pointer;
 }

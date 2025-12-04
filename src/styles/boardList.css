@@ -252,6 +252,35 @@
     text-decoration: underline;
 }
 
+@media screen and (max-width: 905px) {
+    .write_form_container {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .write_form_container > h3 {
+        font-size: 16px;
+        margin-bottom: 14px;
+    }
+
+    .write_form {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .write_form > input {
+        width: 100%;
+        height: 46px;
+        font-size: 13px;
+    }
+
+    .write_form > button {
+        width: 100%;
+        height: 46px;
+        font-size: 14px;
+    }
+}
+
 /* 기존 boardList.css에 추가할 모바일 반응형 스타일 */
 
 @media screen and (max-width: 768px) {

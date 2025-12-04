@@ -625,6 +625,10 @@
         display: none;
     }
 
+    .sidebar_menu {
+        padding-left: 0px;
+    }
+
     .sidebar_menu ul {
         padding: 0;
     }
@@ -632,6 +636,9 @@
     .sidebar_menu a {
         padding: 10px;
         justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        font-size: 12px;
     }
 
     .sidebar_menu a span:not(.menu_icon) {
@@ -769,6 +776,10 @@
     .update_cancel_button {
         width: 100%;
     }
+
+    .logout_btn {
+        font-size: 12px;
+    }
 }
 
 @media screen and (max-width: 480px) {
@@ -785,6 +796,7 @@
 
     .sidebar_menu a {
         padding: 8px;
+        font-size: 10px;
     }
 
     .menu_icon {
