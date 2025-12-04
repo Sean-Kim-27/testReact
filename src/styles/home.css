@@ -9,6 +9,7 @@
 
 /* 기본 사이드바 스타일 개선 */
 .sidebar {
+    height: 100%;
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
