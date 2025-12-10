@@ -5,6 +5,8 @@ import BoardList from './components/BoardList';
 import ViewBoard from './components/ViewBoard';
 import RegisterPage from './components/RegisterPage';
 import SignInPage from './components/SignInPage';
+import Profile from './components/Profile';
+import SideBar from './components/SideBar';
 
 
 function App() {
@@ -28,10 +30,11 @@ function App() {
 
   return(
     <Routes>
-      <Route path="/" element={<Home user={user} setUser={setUser} />} />
-      <Route path="/boards" element={<BoardList user={user} setUser={setUser} />} />
-      <Route path="/viewBoard/:boardId" element={<ViewBoard user={user} setUser={setUser} />} />
+      <Route path="/" element={ <Home user={user} setUser={setUser} />} />
+      <Route path="/boards" element={ <BoardList user={user} setUser={setUser} />} />
+      <Route path="/viewBoard/:boardId" element={ <ViewBoard user={user} setUser={setUser} />} />
       <Route path="/registerPage" element={<RegisterPage />} />
+      <Route path="/profile" element={ <Profile user={user} setUser={setUser} />} />
       <Route path="/signInPage" element={<SignInPage setUser={setUser} />} />
     </Routes>
   )

@@ -2,11 +2,18 @@
 
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from 'react-router-dom'; 
-import axios from 'axios';
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import '../styles/home.css'
 import '../styles/init.css';
 import '../styles/viewBoard.css';
 import LikeButton from "./LikeButton";
+
+import {
+    getBoardDetail,
+    deleteBoard,
+    updateBoard,
+    createComment
+} from "../services/boardService";
 
 function ViewBoard({user, setUser}) {
     // const [isLiked, setIsLiked] = useState(false); 
@@ -16,6 +23,7 @@ function ViewBoard({user, setUser}) {
     const [editTitle, setEditTitle] = useState('');
     const [editContent, setEditContent] = useState('');
     const { boardId } = useParams();
+    const queryClient = useQueryClient();
     const navigate = useNavigate();
     
     const [board, setBoard] = useState(null); 
@@ -27,13 +35,9 @@ function ViewBoard({user, setUser}) {
         }
 
         try {
-            const response = await axios.get(`https://testspring-kmuc.onrender.com/api/boards/${boardId}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            setBoard(response.data); 
-            console.log("상세 게시물 로딩 성공:", response.data);
+            const { data } = await getBoardDetail(boardId);
+            setBoard(data); 
+            console.log("상세 게시물 로딩 성공:", data);
         } catch(error) {
             console.error("게시물 로딩 에러", error);
         }
@@ -52,13 +56,10 @@ function ViewBoard({user, setUser}) {
 
     const handleDelete = async(boardId) => {
         try {
-            await axios.delete(`https://testspring-kmuc.onrender.com/api/boards/${boardId}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            await deleteBoard(boardId);
+
             alert("삭제 완.");
-            // fetchBoards();
+
             navigate(-1);
         } catch(error) {
             console.error("씨발.", error)
@@ -69,9 +70,9 @@ function ViewBoard({user, setUser}) {
         // console.log(content);
         e.preventDefault();
         try {
-            await axios.post(`https://testspring-kmuc.onrender.com/api/boards/${boardId}/comments`, {
-                content: content,
-            }, {headers: { Authorization: `Bearer ${token}`}});
+            await createComment(boardId, content); 
+            console.log(boardId, content);
+            
             alert("댓글이 작성 되었습니다!");
             setContent('');
             fetchBoardDetail();
@@ -125,25 +126,13 @@ function ViewBoard({user, setUser}) {
         }
 
         try {
-            // 🚨 게시물 수정 API 호출 (PUT/PATCH 사용, Body에 제목과 내용 전송)
-            const response = await axios.put(
-                `https://testspring-kmuc.onrender.com/api/boards/${boardId}`,
-                {
-                    title: editTitle,
-                    content: editContent,
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            );
-
+            const { ...data } = await updateBoard(boardId, editTitle, editContent);
+            console.log(data);
             // 🚨 성공 시 4단계로 넘어감
             alert('게시물 수정 성공!');
             
             // 4단계 로직을 여기에 통합! (로컬 상태 업데이트 및 모드 종료)
-            setBoard(response.data); // 서버에서 업데이트된 게시물 전체를 받아왔다고 가정
+            setBoard(data); // 서버에서 업데이트된 게시물 전체를 받아왔다고 가정
             setIsEditing(false); // 수정 모드 종료
 
         } catch(error) {
@@ -171,7 +160,7 @@ function ViewBoard({user, setUser}) {
                             <span className="menu_icon">📋</span>
                             게시판
                         </a></li>
-                        <li><a href="#" onClick={() => alert('프로필 기능 준비중입니다.')}>
+                        <li><a href="/profile">
                             <span className="menu_icon">👤</span>
                             프로필
                         </a></li>

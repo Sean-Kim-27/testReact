@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import '../styles/signInPage.css'
 // import Home from './Home'
 import { useNavigate } from 'react-router-dom';
+import { login } from '../services/authService';
 
 
 function SignInPage({setUser}) {
@@ -15,39 +16,30 @@ function SignInPage({setUser}) {
   // console.log(username);
 
   const handleLogin = async (e) => {
-    const empty_input = document.querySelector('.empty_input');
+    // const empty_input = document.querySelector('.empty_input');
     e.preventDefault();
+    if (!userId || !password) {
+        alert('뒤지기 싫으면 다 채워라');
+        return;
+    }
 
     try {
-      const request = userId && password ? await axios.post('https://testspring-kmuc.onrender.com/auth/login', {
-        username: userId,
-        password: password,
-      }) : false;
+      const { token, nickname } = await login(userId, password);
       
-      console.log(request.data);
+      sessionStorage.setItem("jwtToken", token);
+      sessionStorage.setItem("userInfo", JSON.stringify({
+        nickname: nickname,
+        userId: userId
+      }));
+      console.log(token, nickname);
 
-      if(request) {
-        const { token, nickname } = request.data;
-        setToken(token);
-        
-        sessionStorage.setItem("jwtToken", token);
-        sessionStorage.setItem("userInfo", JSON.stringify({
-          nickname: nickname,
-          userId: userId
-        }));
-        console.log(token)
-        // 🚨 2. App.js의 user 상태를 업데이트!
-        setUser({
+      setUser({
             nickname: nickname,
             userId: userId,
             token: token
-        });
+      });
+      navigate('/');
 
-        navigate('/');
-      } else {
-        empty_input.classList.add('empty');
-        // alert("다 쳐 적어라");
-      }
     } catch(error) {
       alert(`아이디나 비밀번호를 다시 확인해주세요.`);
       // console.error('로그인 중 오류 발생:', error)

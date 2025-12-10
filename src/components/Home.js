@@ -1,9 +1,10 @@
 // src/components/Home.js
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
+import { getBoardList } from '../services/boardService';
+import SideBar from './SideBar';
 import '../styles/home.css'
 import '../styles/init.css'
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 
 function Home({user, setUser}) {
@@ -23,15 +24,11 @@ function Home({user, setUser}) {
 
     const fetchStats = async () => {
         try {
-            const response = await axios.get('https://testspring-kmuc.onrender.com/api/boards', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            
-            const boards = response.data || [];
+            const [ ...data ] = await getBoardList();
+            console.log(data);
+            const boards = data || [];
             const recentBoards = boards.sort((a, b) => {return b.likeCount - a.likeCount}).slice(0, 3);
-            console.log(recentBoards);
+            // console.log(recentBoards);
             
             setStats({
                 totalBoards: boards.length,
@@ -57,52 +54,7 @@ function Home({user, setUser}) {
 
     return (
         <div className="Home_container">
-            <div className="sidebar">
-                <div className="sidebar_header">
-                    <div className="sidebar_logo">📋</div>
-                    <div className="sidebar_title">게시판</div>
-                </div>
-                
-                <nav className="sidebar_menu">
-                    <ul>
-                        <li><a href="#" onClick={(e) => e.preventDefault()} className="active">
-                            <span className="menu_icon">🏠</span>
-                            홈
-                        </a></li>
-                        <li><a href="/boards" onClick={(e) => {e.preventDefault(); navigate('/boards');}}>
-                            <span className="menu_icon">📋</span>
-                            게시판
-                        </a></li>
-                        <li><a href="#" onClick={() => alert('프로필 기능 준비중입니다.')}>
-                            <span className="menu_icon">👤</span>
-                            프로필
-                        </a></li>
-                    </ul>
-                </nav>
-                
-                <div className="sidebar_footer">
-                    {user ? (
-                        <>
-                            <div className="user_info">
-                                <div>👋 {user.nickname}님</div>
-                                <div style={{fontSize: '12px', color: 'rgba(255,255,255,0.7)'}}>환영합니다!</div>
-                            </div>
-                            <button className="logout_btn" onClick={handleLogout}>
-                                로그아웃
-                            </button>
-                        </>
-                    ) : (
-                        <div style={{textAlign: 'center'}}>
-                            <p style={{color: 'rgba(255,255,255,0.8)', fontSize: '14px', marginBottom: '12px'}}>
-                                로그인이 필요합니다
-                            </p>
-                            <button className="logout_btn" onClick={() => navigate('/signInPage')}>
-                                로그인
-                            </button>
-                        </div>
-                    )}
-                </div>
-            </div>
+            <SideBar user={user} setUser={setUser} state={'home'} />
 
             <div className="main_content">
                 <div className="content_header">

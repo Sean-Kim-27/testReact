@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/likedButton.css'
+import { clickOnLike } from '../services/boardService';
 
 function LikeButton({ boardId, likeCount, isLiked, token, fetchBoardDetail }) {
     
@@ -19,14 +20,11 @@ function LikeButton({ boardId, likeCount, isLiked, token, fetchBoardDetail }) {
         
         // 2. 낙관적 업데이트
         isLiked = !isLiked;
-
+        
         try {
             // 3. 서버 요청
-            const like = await axios.post(
-                `https://testspring-kmuc.onrender.com/api/boards/${boardId}/like`, 
-                null, 
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
+            console.log(boardId);
+            await clickOnLike(boardId);
             fetchBoardDetail();
             
         } catch(error) {

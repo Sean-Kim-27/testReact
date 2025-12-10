@@ -5,6 +5,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Home from './Home';
+import {register} from '../services/authService';
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -14,12 +15,12 @@ function RegisterPage() {
 
   const RegisterCheck = async (e) => {
     e.preventDefault();
+    if(!nickname || !userId || !password) {
+      alert("뒤지기 싫으면 다 채워라");
+      return;
+    }
     try {
-      await axios.post('https://testspring-kmuc.onrender.com/auth/signup', {
-        nickname: nickname,
-        username: userId,
-        password: password
-      });
+      const {data} = await register(nickname, userId, password);
       // ... 요청 ...
       alert("가입 성공!");
       navigate('/');

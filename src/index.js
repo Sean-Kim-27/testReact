@@ -8,14 +8,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 // 🚨 2. Bootstrap Icons CSS 임포트 (추가!)
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 

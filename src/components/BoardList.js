@@ -5,48 +5,58 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/home.css';
 import '../styles/boardList.css';
 import SockJS from 'sockjs-client';
+import SideBar from './SideBar';
 // 🚨 기존: import Stomp from 'stompjs/lib/stomp'; (이걸 바꿔야 함)
 
 // 🚨🚨🚨 StompModule이라는 이름으로 임포트 후, 실제 Stomp 객체를 찾아서 Stomp 변수에 할당 🚨🚨🚨
 import { Client } from '@stomp/stompjs';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { getBoardList, createBoard } from '../services/boardService';
 
 // console.log(Client);
 
 function BoardList({ user, setUser }) {
-    const [boards, setBoards] = useState([]);
+    // const [boards, setBoards] = useState([]);
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const token = sessionStorage.getItem("jwtToken");
+    const queryClient = useQueryClient();
     const navigate = useNavigate();
+    const [imageUrl, setimageUrl] = useState('');
 
     // console.log(user);
-    const fetchBoards = async () => {
-        try {
-            const response = await axios.get('https://testspring-kmuc.onrender.com/api/boards', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            setBoards(response.data ? response.data.sort((a, b) => {
-                // 1. 날짜 문자열을 Date 객체로 변환 (getTime()을 호출하면 숫자로 변환됨)
-                const dateA = new Date(a.createdAt);
-                const dateB = new Date(b.createdAt);
-                
-                // 2. b에서 a를 빼면, b(더 최신 날짜)가 앞으로 오게 됨 (내림차순)
-                return dateB.getTime() - dateA.getTime();
-            }) : []);
-        } catch (error) {
-            console.error("에러 발생:", error);
-            if (error.response?.status === 401) {
-                alert("세션이 만료되었습니다. 다시 로그인해주세요.");
-                navigate('/signInPage');
-            }
-        }
-    };
+    
+    // const fetchBoards = async () => {
+    //     const response = await axios.get('https://testspring-kmuc.onrender.com/api/boards', {
+    //         headers: {
+    //             Authorization: `Bearer ${token}`
+    //         }
+    //     });
+    //     // console.log(response.data);
+    //     return response.data.sort((a, b) => {
+    //         // 1. 날짜 문자열을 Date 객체로 변환 (getTime()을 호출하면 숫자로 변환됨)
+    //         const dateA = new Date(a.createdAt);
+    //         const dateB = new Date(b.createdAt);
+            
+    //         // 2. b에서 a를 빼면, b(더 최신 날짜)가 앞으로 오게 됨 (내림차순)
+    //         return dateB.getTime() - dateA.getTime();
+    //     })
+    // };
+
+    const {
+        data: boards,
+        isLoading,
+        isError,
+        error
+    } = useQuery({
+        queryKey: ['boardList'],
+        queryFn: getBoardList,
+        enabled: !!token,
+    });
 
     useEffect(() => {
         if (token) {
-            fetchBoards();
+            // fetchBoards();
             const client = new Client({
                 // 🚨 1. 웹소켓 브로커 URL 지정
                 webSocketFactory: () => {
@@ -63,11 +73,13 @@ function BoardList({ user, setUser }) {
                     client.subscribe('/topic/new-board', (message) => {
                         console.log('새 게시글 알림 수신, 목록 업데이트:', message.body);
                         // 메시지가 오면 목록을 다시 불러와 화면을 최신화
-                        fetchBoards(); 
+                        // fetchBoards(); 
+                        queryClient.invalidateQueries({queryKey: ['boardList']});
                     });
                     
                     // 🚨 초기 로딩 시 목록 가져오기
-                    fetchBoards(); 
+                    // fetchBoards(); 
+                    client.activate();
                 },
                 
                 // 4. 에러 처리
@@ -77,7 +89,6 @@ function BoardList({ user, setUser }) {
             });
 
             // 5. 클라이언트 활성화 (연결 시작)
-            client.activate();
 
             // 6. ⭐️ 컴포넌트가 종료될 때 연결 해제 (클린업)
             return () => {
@@ -90,9 +101,16 @@ function BoardList({ user, setUser }) {
         }
 
         
-    }, [token]);
+    }, [token, queryClient]);
 
-
+    // 🚨 4. 로딩 및 에러 처리 (JSX 리턴 전에 처리)
+    if (isLoading) {
+        return <div className="loading_state">로딩 중이다... 기다려라.</div>;
+    }
+    if (isError) {
+        console.error("게시물 로딩 에러:", error);
+        return <div className="error_state">데이터를 못 가져왔다. 서버 상태 확인해라.</div>;
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -102,18 +120,13 @@ function BoardList({ user, setUser }) {
         }
 
         try {
-            const response = await axios.post('https://testspring-kmuc.onrender.com/api/boards', {
-                title: title,
-                content: content
-            }, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            await createBoard(title, content, imageUrl);
+            alert("게시글 작성 완료!");
             
             setTitle('');
             setContent('');
-            // fetchBoards();
+            setimageUrl('');
+            queryClient.invalidateQueries({queryKey: ['boardList']});
         } catch (error) {
             console.error("게시글 작성 실패:", error);
             alert("게시글 작성에 실패했습니다.");
@@ -135,53 +148,7 @@ function BoardList({ user, setUser }) {
     if (!user) {
         return (
             <div className="Home_container">
-                <div className="sidebar">
-                    <div className="sidebar_header">
-                        <div className="sidebar_logo">📋</div>
-                        <div className="sidebar_title">게시판</div>
-                    </div>
-                    
-                    <nav className="sidebar_menu">
-                        <ul>
-                            <li><a href="/">
-                                <span className="menu_icon">🏠</span>
-                                홈
-                            </a></li>
-                            <li><a href="/boards" className="active">
-                                <span className="menu_icon">📋</span>
-                                게시판
-                            </a></li>
-                            <li><a href="#" onClick={() => alert('프로필 기능 준비중입니다.')}>
-                                <span className="menu_icon">👤</span>
-                                프로필
-                            </a></li>
-                        </ul>
-                    </nav>
-                    
-                    <div className="sidebar_footer">
-                    {user ? (
-                        <>
-                            <div className="user_info">
-                                <div>👋 {user.nickname}님</div>
-                                <div style={{fontSize: '12px', color: 'rgba(255,255,255,0.7)'}}>환영합니다!</div>
-                            </div>
-                            <button className="logout_btn" onClick={handleLogout}>
-                                로그아웃
-                            </button>
-                        </>
-                    ) : (
-                        <div style={{textAlign: 'center'}}>
-                            <p style={{color: 'rgba(255,255,255,0.8)', fontSize: '14px', marginBottom: '12px'}}>
-                                로그인이 필요합니다
-                            </p>
-                            <button className="logout_btn" onClick={() => navigate('/signInPage')}>
-                                로그인
-                            </button>
-                        </div>
-                    )}
-                </div>
-                </div>
-
+                <SideBar user={user} setUser={setUser} state={'boardList'} />
                 <div className="main_content">
                     <div className="empty_state">
                         <h3>로그인이 필요합니다</h3>
@@ -213,7 +180,7 @@ function BoardList({ user, setUser }) {
                             <span className="menu_icon">📋</span>
                             게시판
                         </a></li>
-                        <li><a href="#" onClick={() => alert('프로필 기능 준비중입니다.')}>
+                        <li><a href="#" onClick={() => navigate('/profile')}>
                             <span className="menu_icon">👤</span>
                             프로필
                         </a></li>
