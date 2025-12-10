@@ -11,7 +11,7 @@ import SideBar from './SideBar';
 // 🚨🚨🚨 StompModule이라는 이름으로 임포트 후, 실제 Stomp 객체를 찾아서 Stomp 변수에 할당 🚨🚨🚨
 import { Client } from '@stomp/stompjs';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { getBoardList, createBoard } from '../services/boardService';
+import { getBoardList, createBoard, uploadImage } from '../services/boardService';
 
 // console.log(Client);
 
@@ -22,26 +22,7 @@ function BoardList({ user, setUser }) {
     const token = sessionStorage.getItem("jwtToken");
     const queryClient = useQueryClient();
     const navigate = useNavigate();
-    const [imageUrl, setimageUrl] = useState('');
-
-    // console.log(user);
-    
-    // const fetchBoards = async () => {
-    //     const response = await axios.get('https://testspring-kmuc.onrender.com/api/boards', {
-    //         headers: {
-    //             Authorization: `Bearer ${token}`
-    //         }
-    //     });
-    //     // console.log(response.data);
-    //     return response.data.sort((a, b) => {
-    //         // 1. 날짜 문자열을 Date 객체로 변환 (getTime()을 호출하면 숫자로 변환됨)
-    //         const dateA = new Date(a.createdAt);
-    //         const dateB = new Date(b.createdAt);
-            
-    //         // 2. b에서 a를 빼면, b(더 최신 날짜)가 앞으로 오게 됨 (내림차순)
-    //         return dateB.getTime() - dateA.getTime();
-    //     })
-    // };
+    const [file, setFile] = useState(null);
 
     const {
         data: boards,
@@ -133,18 +114,35 @@ function BoardList({ user, setUser }) {
             alert("제목과 내용을 입력해주세요.");
             return;
         }
+        console.log(file);
+        // 1. 이미지가 있으면 백엔드에 먼저 올려서 URL 받아옴
+        let uploadedImageUrl = null;
+        if (file) {
+            const formData = new FormData();
+            formData.append("file", file); // 파일 담기
 
-        try {
-            await createBoard(title, content, imageUrl);
-            alert("게시글 작성 완료!");
-            
-            setTitle('');
-            setContent('');
-            setimageUrl('');
-            queryClient.invalidateQueries({queryKey: ['boardList']});
-        } catch (error) {
-            console.error("게시글 작성 실패:", error);
-            alert("게시글 작성에 실패했습니다.");
+            try {
+                // ★ 백엔드 업로드 API 호출
+                const res = await uploadImage(formData);
+                uploadedImageUrl = res.data; // 백엔드가 준 URL (https://...)
+                
+            } catch (err) {
+                alert("이미지 업로드 실패함");
+                return;
+            }
+        } else {
+            try {
+                await createBoard(title, content, uploadedImageUrl, user.nickname);
+                alert("게시글 작성 완료!");
+                
+                setTitle('');
+                setContent('');
+                setFile('');
+                queryClient.invalidateQueries({queryKey: ['boardList']});
+            } catch (error) {
+                console.error("게시글 작성 실패:", error);
+                alert("게시글 작성에 실패했습니다.");
+            }
         }
     };
 

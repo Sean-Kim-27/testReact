@@ -15,11 +15,12 @@ export const getBoardList = async () => {
 };
 
 // 2. 새 게시글 작성 함수
-export const createBoard = async (title, content, imageUrl) => {
+export const createBoard = async (title, content, uploadedImageUrl, nickname) => {
     const response = await apiClient.post('/api/boards', {
         title: title,
         content: content,
-        imageUrl: imageUrl
+        imageUrl: uploadedImageUrl,
+        username: nickname
     });
     return response.data;
 };
@@ -48,6 +49,11 @@ export const createComment = async(boardId, content) => {
     await apiClient.post(`/api/boards/${boardId}/comments`, {
         content: content
     });
+}
+
+export const uploadImage = async(formData) => {
+    const response = await apiClient.post('/api/boards/upload', {formData: formData});
+    return response;
 }
 
 ///////////////////////////// Like Button ///////////////////////////////////
