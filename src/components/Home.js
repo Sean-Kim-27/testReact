@@ -16,6 +16,8 @@ function Home({user, setUser}) {
         recentBoards: []
     });
 
+
+
     useEffect(() => {
         if (token) {
             fetchStats();
@@ -23,28 +25,31 @@ function Home({user, setUser}) {
     }, [token]);
 
     const fetchStats = async () => {
+        let writedUsers = new Set();
+
         try {
             const [ ...data ] = await getBoardList();
-            console.log(data);
+            // console.log(data);
+
+            data.map(item => {
+                writedUsers.add(item.nickname);
+            });
+
+            // console.log(writedUsers.size);
+            // console.log(new Set(boards.map(board => board.userId)));
+
             const boards = data || [];
             const recentBoards = boards.sort((a, b) => {return b.likeCount - a.likeCount}).slice(0, 3);
             // console.log(recentBoards);
             
             setStats({
                 totalBoards: boards.length,
-                totalUsers: new Set(boards.map(board => board.userId)).size,
+                totalUsers: writedUsers.size,
                 recentBoards: recentBoards
             });
         } catch (error) {
             console.error('통계 데이터 로딩 실패:', error);
         }
-    };
-
-    const handleLogout = () => {
-        sessionStorage.removeItem('userInfo');
-        sessionStorage.removeItem('jwtToken');
-        setUser(null);
-        navigate('/');
     };
 
     const formatDate = (dateString) => {
@@ -99,7 +104,7 @@ function Home({user, setUser}) {
                                                     <span>{board.author || board.nickname}</span>
                                                     <span>•</span>
                                                     <span>{formatDate(board.createdAt)}</span>
-                                                    {(board.likeCount > 0 || board.comments.length > 0) && (
+                                                    {(board.likeCount > 0 || board.commentCount > 0) && (
                                                         <>
                                                             <span>•</span>
                                                             {board.likeCount > 0 && (
@@ -108,10 +113,10 @@ function Home({user, setUser}) {
                                                                     <span>{board.likeCount}</span>
                                                                 </span>
                                                             )}
-                                                            {board.comments.length > 0 && (
+                                                            {board.commentCount > 0 && (
                                                                 <span style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
                                                                     <span>💬</span>
-                                                                    <span>{board.comments.length}</span>
+                                                                    <span>{board.commentCount}</span>
                                                                 </span>
                                                             )}
                                                         </>

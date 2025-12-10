@@ -105,7 +105,22 @@ function BoardList({ user, setUser }) {
 
     // 🚨 4. 로딩 및 에러 처리 (JSX 리턴 전에 처리)
     if (isLoading) {
-        return <div className="loading_state">로딩 중이다... 기다려라.</div>;
+        return (
+            <div className="Home_container">
+                <SideBar user={user} setUser={setUser} state={'boardList'} />
+                <div className="main_content">
+                    <div className="loading_state">
+                        <div className="loading_spinner"></div>
+                        <div>로딩 중이다... 기다려라.</div>
+                        <div className="loading_dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
     }
     if (isError) {
         console.error("게시물 로딩 에러:", error);
@@ -256,7 +271,7 @@ function BoardList({ user, setUser }) {
                                                 <span className="board_author">{board.author || board.nickname}</span>
                                                 <span>•</span>
                                                 <span className="board_date">{formatDate(board.createdAt)}</span>
-                                                {(board.likeCount > 0 || board.comments.length > 0) && (
+                                                {(board.likeCount > 0 || board.commentCount > 0) && (
                                                     <>
                                                         <span>•</span>
                                                         {board.likeCount > 0 && (
@@ -265,10 +280,10 @@ function BoardList({ user, setUser }) {
                                                                 <span>{board.likeCount}</span>
                                                             </span>
                                                         )}
-                                                        {board.comments.length > 0 && (
+                                                        {board.commentCount > 0 && (
                                                             <span style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
                                                                 <span>💬</span>
-                                                                <span>{board.comments.length }</span>
+                                                                <span>{board.commentCount }</span>
                                                             </span>
                                                         )}
                                                     </>

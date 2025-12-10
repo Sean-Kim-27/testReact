@@ -37,7 +37,7 @@ function ViewBoard({user, setUser}) {
         try {
             const { data } = await getBoardDetail(boardId);
             setBoard(data); 
-            console.log("상세 게시물 로딩 성공:", data);
+            // console.log("상세 게시물 로딩 성공:", data);
         } catch(error) {
             console.error("게시물 로딩 에러", error);
         }

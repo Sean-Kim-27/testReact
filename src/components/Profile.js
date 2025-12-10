@@ -10,8 +10,8 @@ function Profile({user, setUser}) {
     let toggle = {'like' : false, 'write' : false};
     // const [ commentBoards, setCommentBoards ] = useState([]);
     const navigate = useNavigate();
-    const {nickname} = JSON.parse(sessionStorage.getItem('userInfo'));
-    console.log(nickname);
+    const nickname = user ? user.nickname : '';
+    // console.log(nickname);
 
     const ProfileFetch = async() => {
         try {
@@ -26,7 +26,7 @@ function Profile({user, setUser}) {
             console.log("Tlqkf", error);
         }
     }
-    console.log(writeBoards );
+    // console.log(writeBoards);
     useEffect(() => {
         ProfileFetch();
     }, []);
@@ -49,10 +49,10 @@ function Profile({user, setUser}) {
             
         } else {
             if(focus == 'like') {
-                likeListContainer.style.height="80px";
+                likeListContainer.style.height="100px";
                 likeListContainer.style.overflow="hidden";
             } else if(focus == 'write') {
-                writeListContainer.style.height="80px";
+                writeListContainer.style.height="100px";
                 writeListContainer.style.overflow="hidden";
             }
             
@@ -81,14 +81,14 @@ function Profile({user, setUser}) {
             <SideBar user={user} setUser={setUser} state={'profile'} />
 
             <div className="profile_content_container">
-                <div className="profile_info_container">
-                    <p>네놈의 이름: {nickname} | 개추 받은 수: {totalLikeCount} | 내가 싸지른 게시물: {[...writeBoards].length}개</p>    
-                </div>
+                {user ? (
+                    <>
+                        <div className="profile_info_container">
+                            <p>네놈의 이름: {nickname} | 개추 받은 수: {totalLikeCount} | 내가 싸지른 게시물: {[...writeBoards].length}개</p>    
+                        </div>
 
-                <div onClick={() => {navigate(-1)}} className="location_back_button">뒤로가기</div>
-                <div className="like_list_container">
-                    {user ? (
-                        <>
+                        <div onClick={() => {navigate(-1)}} className="location_back_button">뒤로가기</div>
+                        <div className="like_list_container">
                             <h2 className="like_list_button">개추 누른 게시물 <i className="bi bi-arrow-down-circle" style={{fontSize: '24px'}} onClick={ (e) => handleButton(e, 'like') }></i></h2>
                             {likeBoards.length > 0 ? [...likeBoards].map((likeBoard) => (
                                 <div key={likeBoard.id} onClick={() => {navigate(`/viewBoard/${likeBoard.id}`)}}>
@@ -99,22 +99,23 @@ function Profile({user, setUser}) {
                                     </>
                                 </div>
                             )) : <div>좋아요를 누른 게시물이 존재하지 않습니다.</div>}
-                        </>
-                    ): '로그인 먼저 해주세요.'}
-                </div>
-                <div className="write_list_container">
-                    <h2 className="wrtie_list_button">내가 싸지른 게시물 <i className="bi bi-arrow-down-circle" style={{fontSize: '24px'}} onClick={ (e) => handleButton(e, 'write') }></i></h2>
+                        </div>
+                        <div className="write_list_container">
+                            <h2 className="wrtie_list_button">내가 싸지른 게시물 <i className="bi bi-arrow-down-circle" style={{fontSize: '24px'}} onClick={ (e) => handleButton(e, 'write') }></i></h2>
 
-                    {writeBoards.length > 0 ? [...writeBoards].map((writeBoard) => (
-                        <div key={writeBoard.id} onClick={() => {navigate(`/viewBoard/${writeBoard.id}`)}}>
-                                    <>
-                                        <div>{writeBoard.title}</div>
-                                        <div>{writeBoard.content}</div>
-                                        <div>{writeBoard.nickname} | {writeBoard.createdAt}</div>
-                                    </>
-                                </div>
-                    )) : <div>아직 싸지른 게시물이 없다.</div>}
-                </div>
+                            {writeBoards.length > 0 ? [...writeBoards].map((writeBoard) => (
+                                <div key={writeBoard.id} onClick={() => {navigate(`/viewBoard/${writeBoard.id}`)}}>
+                                            <>
+                                                <div>{writeBoard.title}</div>
+                                                <div>{writeBoard.content}</div>
+                                                <div>{writeBoard.nickname} | {writeBoard.createdAt}</div>
+                                            </>
+                                        </div>
+                            )) : <div>아직 싸지른 게시물이 없다.</div>}
+                        </div>
+                    </>
+                ) : <div>로그인 먼저 하세요</div>}
+                
             </div>
         </div>
     );

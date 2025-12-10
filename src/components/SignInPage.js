@@ -38,7 +38,7 @@ function SignInPage({setUser}) {
             userId: userId,
             token: token
       });
-      navigate('/');
+      navigate(-1);
 
     } catch(error) {
       alert(`아이디나 비밀번호를 다시 확인해주세요.`);
@@ -48,7 +48,7 @@ function SignInPage({setUser}) {
   } 
 
   const locationBack = () => {
-    navigate('/');
+    navigate(-1);
   }
 
   return (
