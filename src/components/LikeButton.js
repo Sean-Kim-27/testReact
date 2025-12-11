@@ -24,7 +24,7 @@ function LikeButton({ boardId, likeCount, isLiked, token, fetchBoardDetail }) {
         
         try {
             // 3. 서버 요청
-            console.log(boardId);
+            // console.log(boardId);
             await clickOnLike(boardId);
             fetchBoardDetail();
             
