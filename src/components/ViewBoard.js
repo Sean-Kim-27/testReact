@@ -36,7 +36,9 @@ function ViewBoard({user, setUser}) {
 
         try {
             const { data } = await getBoardDetail(boardId);
-            setBoard(data); 
+            setBoard(data);
+            // console.log(data);
+            
             // console.log("상세 게시물 로딩 성공:", data);
         } catch(error) {
             console.error("게시물 로딩 에러", error);
@@ -239,6 +241,7 @@ function ViewBoard({user, setUser}) {
                                         </div>
                                         <div className="board_body">
                                             <p>{board.content}</p>
+                                            <img className="board_content_image" width="400px" src={board.imageUrl} />
                                         </div>
                                         
                                         <div className="action_buttons">

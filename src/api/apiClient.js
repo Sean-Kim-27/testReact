@@ -14,6 +14,7 @@ apiClient.interceptors.request.use((config) => {
     // 모든 요청이 나가기 전에 실행됨
     const token = sessionStorage.getItem("jwtToken");
     if (token) {
+        console.log(token);
         config.headers.Authorization = `Bearer ${token}`;
     }
     return config; // 설정된 config를 반환해야 요청이 이어진다

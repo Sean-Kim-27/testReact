@@ -51,9 +51,27 @@ export const createComment = async(boardId, content) => {
     });
 }
 
-export const uploadImage = async(formData) => {
-    const response = await apiClient.post('/api/boards/upload', formData);
-    return response;
+export const uploadImage = async(file) => {
+    // 🚨 1. FormData 객체 생성
+    const formData = new FormData();
+    
+    // 🚨 2. 파일을 'file'이라는 키(백엔드에서 기대하는 파라미터 이름)로 추가
+    // 백엔드(Spring)의 컨트롤러 메서드에 @RequestParam("file") 이라고 되어 있다면, 이 키 이름이 'file'이어야 한다!
+    formData.append('file', file); 
+
+    try {
+        // 🚨 3. apiClient에 FormData 객체를 바로 전달한다.
+        // Axios는 FormData를 받으면 Content-Type을 'multipart/form-data'로 자동 설정한다!
+        const response = await apiClient.post('/api/boards/upload', formData); 
+        
+        // 서버 응답이 response.data에 있을 거다.
+        console.log(response);
+        return response; 
+    } catch (error) {
+        // 에러를 던져서 호출부에서 처리할 수 있게 한다.
+        console.error("이미지 업로드 실패:", error.response || error);
+        throw error;
+    }
 }
 
 ///////////////////////////// Like Button ///////////////////////////////////

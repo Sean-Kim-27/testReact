@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { getBoardList } from '../services/boardService';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import SideBar from './SideBar';
 import '../styles/home.css'
 import '../styles/init.css'
@@ -11,14 +12,13 @@ function Home({user, setUser}) {
     const navigate = useNavigate();
     const token = sessionStorage.getItem("jwtToken");
     const [isLoading, setIsLoading] = useState(true);
+    // const queryClient = useQueryClient();
     const [isError, setIsError] = useState(false);
     const [stats, setStats] = useState({
         totalBoards: 0,
         totalUsers: 0,
         recentBoards: []
     });
-
-
 
     useEffect(() => {
         if (token) {

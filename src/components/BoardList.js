@@ -10,7 +10,7 @@ import SideBar from './SideBar';
 
 // 🚨🚨🚨 StompModule이라는 이름으로 임포트 후, 실제 Stomp 객체를 찾아서 Stomp 변수에 할당 🚨🚨🚨
 import { Client } from '@stomp/stompjs';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { getBoardList, createBoard, uploadImage } from '../services/boardService';
 
 // console.log(Client);
@@ -36,7 +36,6 @@ function BoardList({ user, setUser }) {
         enabled: !!token,
     });
 
-
     ///////////////////////// boards select /////////////////////////////
     // console.log(boards);
     const ITEMS_PER_PAGE = 5;
@@ -60,13 +59,14 @@ function BoardList({ user, setUser }) {
         }
     };
 
-    console.log(displayedBoards); // 이제 displayedBoards에는 5개씩 묶인 배열이 들어있다.
+    // console.log(displayedBoards); // 이제 displayedBoards에는 5개씩 묶인 배열이 들어있다.
     // console.log(boards.splice(0, boards.length));
 
     useEffect(() => {
         if (token) {
             // fetchBoards();
             // console.log("asd");
+            // console.log(boards);
             const client = new Client({
                 // 🚨 1. 웹소켓 브로커 URL 지정
                 webSocketFactory: () => {
@@ -85,6 +85,7 @@ function BoardList({ user, setUser }) {
                         // 메시지가 오면 목록을 다시 불러와 화면을 최신화
                         // fetchBoards(); 
                         queryClient.invalidateQueries({queryKey: ['boardList']});
+
                     });
                     
                     // 🚨 초기 로딩 시 목록 가져오기
@@ -110,8 +111,64 @@ function BoardList({ user, setUser }) {
             navigate('/signInPage');
         }
 
-        
     }, [token, queryClient]);
+
+    // 🚨 2. 글 작성 Mutation 정의 (POST 요청)
+    const createBoardMutation = useMutation({
+        // mutationFn: 실제로 서버에 요청을 보낼 함수 (service 파일의 함수 사용)
+        mutationFn: ({ title, content, uploadedImageUrl, nickname }) => 
+            createBoard(title, content, uploadedImageUrl, nickname),
+            
+        // onSuccess: 요청 성공 시 실행 (이게 핵심이다!)
+        onSuccess: () => {
+            // 'boardList' 쿼리 키를 무효화하여 useQuery를 다시 실행시킨다!
+            queryClient.invalidateQueries({ queryKey: ['boardList'] });
+            
+            // 입력 필드 초기화
+            setTitle('');
+            setContent('');
+            setFile(null); 
+            alert('게시물 등록 성공!');
+        },
+        
+        // onError: 요청 실패 시 실행
+        onError: (error) => {
+            console.error('글 작성 중 오류 발생:', error.response?.data || error.message);
+            alert(`글 작성 실패: ${error.response?.data?.message || '알 수 없는 오류'}`);
+        }
+    });
+
+    // 🚨 4. handleSubmit 함수 수정 (Mutation 실행)
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        // ... (유효성 검사 유지) ...
+        
+        let uploadedImageUrl = null;
+        
+        // 파일 업로드 로직은 Mutation이 아니므로 그대로 유지
+        if (file) {
+            // console.log(file);
+            try {
+                const uploadResponse = await uploadImage(file);
+                // 🚨🚨🚨 이전 대화에서 지적했던 버그 수정: .data.url을 써야 한다!
+                uploadedImageUrl = uploadResponse.data; 
+                // console.log(uploadedImageUrl);
+            } catch (error) {
+                console.error('이미지 업로드 실패:', error);
+                alert("이미지 업로드에 실패했다.");
+                return;
+            }
+        }
+        
+        // 🚨 Mutation 호출! (비동기 처리와 상태 관리를 라이브러리에 맡긴다)
+        createBoardMutation.mutate({
+            title, 
+            content, 
+            uploadedImageUrl, 
+            nickname: user.nickname // user 객체에 nickname이 있다는 가정 하에
+        });
+    };
 
     // 🚨 4. 로딩 및 에러 처리 (JSX 리턴 전에 처리)
     if (isLoading) {
@@ -166,50 +223,6 @@ function BoardList({ user, setUser }) {
         // e.target.files[0]이 선택된 파일이다.
         // console.log(e.target.files[0]);
         setFile(e.target.files[0]); 
-    };
-
-    // 🚨 글 작성 함수 수정!
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        if (!user || !user.token) {
-            alert("로그인부터 해라.");
-            return;
-        }
-
-        if (!title.trim() || !content.trim()) {
-            alert('제목과 내용을 입력해라!');
-            return;
-        }
-
-        let uploadedImageUrl = null;
-        
-        try {
-            // 🚨 1. 파일이 있으면 먼저 업로드한다.
-            if (file) {
-                const formData = new FormData();
-                // 서버에서 'file'이라는 이름으로 받기로 했다면, 여기에 file을 넣는다.
-                formData.append('file', file);
-                console.log(formData);
-                
-                // uploadImage 서비스 함수 호출!
-                const uploadResponse = await uploadImage(formData);
-                // console.log(uploadResponse);
-                uploadedImageUrl = uploadResponse.url; // 서버에서 반환한 이미지 URL 저장
-            }
-
-            // 🚨 2. 게시글 작성 함수 호출 시 이미지 URL도 같이 보낸다.
-            await createBoard(title, content, uploadedImageUrl, user.nickname); 
-            
-            setTitle('');
-            setContent('');
-            setFile(null); // 파일 상태 초기화
-            queryClient.invalidateQueries({ queryKey: ['boardList'] }); 
-            alert('게시물 등록 성공!');
-        } catch (error) {
-            console.error('글 작성 중 오류 발생:', error.response?.data || error.message);
-            alert(`글 작성 실패: ${error.response?.data?.message || '알 수 없는 오류'}`);
-        }
     };
 
     const handleLogout = () => {

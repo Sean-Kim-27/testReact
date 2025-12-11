@@ -1,5 +1,6 @@
 // src/components/LikeButton.js
 
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/likedButton.css'
