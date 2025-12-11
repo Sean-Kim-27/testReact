@@ -23,6 +23,7 @@ function BoardList({ user, setUser }) {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
     const [file, setFile] = useState(null);
+    const [idx, setIdx] = useState(0); // 현재 페이지 인덱스 (0, 1, 2, ...)
 
     const {
         data: boards,
@@ -34,6 +35,33 @@ function BoardList({ user, setUser }) {
         queryFn: getBoardList,
         enabled: !!token,
     });
+
+
+    ///////////////////////// boards select /////////////////////////////
+    // console.log(boards);
+    const ITEMS_PER_PAGE = 5;
+
+    const startIndex = idx * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+
+
+    // 🚨 3. slice()는 원본 배열을 건드리지 않고, 새로운 배열을 반환한다. (가장 중요!)
+    // boards가 없을 경우(로딩 중)를 대비해 빈 배열을 기본값으로 준다.
+    const displayedBoards = boards ? boards.slice(startIndex, endIndex) : [];
+
+    // 🚨 4. 전체 페이지 수 계산
+    const totalPages = boards ? Math.ceil(boards.length / ITEMS_PER_PAGE) : 0;
+
+
+    // 🚨 5. 페이지 변경 핸들러 함수
+    const handlePageChange = (newIdx) => {
+        if (newIdx >= 0 && newIdx < totalPages) {
+            setIdx(newIdx); // 상태 업데이트는 이벤트 핸들러 안에서만!
+        }
+    };
+
+    console.log(displayedBoards); // 이제 displayedBoards에는 5개씩 묶인 배열이 들어있다.
+    // console.log(boards.splice(0, boards.length));
 
     useEffect(() => {
         if (token) {
@@ -165,8 +193,9 @@ function BoardList({ user, setUser }) {
                 console.log(formData);
                 
                 // uploadImage 서비스 함수 호출!
-                const uploadResponse = await uploadImage(formData, user);
-                uploadedImageUrl = uploadResponse; // 서버에서 반환한 이미지 URL 저장
+                const uploadResponse = await uploadImage(formData);
+                // console.log(uploadResponse);
+                uploadedImageUrl = uploadResponse.url; // 서버에서 반환한 이미지 URL 저장
             }
 
             // 🚨 2. 게시글 작성 함수 호출 시 이미지 URL도 같이 보낸다.
@@ -190,11 +219,6 @@ function BoardList({ user, setUser }) {
         navigate('/');
     };
 
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('ko-KR');
-    };
-
     if (!user) {
         return (
             <div className="Home_container">
@@ -211,6 +235,11 @@ function BoardList({ user, setUser }) {
             </div>
         );
     }
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('ko-KR');
+    };
 
     return (
         <div className="Home_container">
@@ -298,7 +327,7 @@ function BoardList({ user, setUser }) {
                     </div>
 
                     <div className="board_list">
-                        {boards.length > 0 ? (
+                        {/* {boards.length > 0 ? (
                             boards.map((board) => (
                                 <div key={board.id} className="board_item" onClick={() => navigate(`/viewBoard/${board.id}`)}>
                                     <div className="board_item_left">
@@ -340,7 +369,67 @@ function BoardList({ user, setUser }) {
                                 <p>아직 게시물이 없습니다.</p>
                                 <p>첫 번째 게시물을 작성해보세요!</p>
                             </div>
-                        )}
+                        )} */}
+
+                        <div className='board-list-container'>
+                            {/* 🚨 6. 5개씩 묶인 displayedBoards를 map 돌려 보여준다. */}
+                            {displayedBoards.map((board) => (
+                                <div key={board.id} className='list'>
+                                    <div key={board.id} className="board_item" onClick={() => navigate(`/viewBoard/${board.id}`)}>
+                                        <div className="board_item_left">
+                                            <div className="board_profile">
+                                                {board.nickname?.charAt(0)?.toUpperCase() || 'A'}
+                                            </div>
+                                            <div className="board_info">
+                                                <div className="board_title">{board.title}</div>
+                                                <div className="board_content">{board.content}</div>
+                                                <div className="board_meta">
+                                                    <span className="board_author">{board.author || board.nickname}</span>
+                                                    <span>•</span>
+                                                    <span className="board_date">{formatDate(board.createdAt)}</span>
+                                                    {(board.likeCount > 0 || board.commentCount > 0) && (
+                                                        <>
+                                                            <span>•</span>
+                                                            {board.likeCount > 0 && (
+                                                                <span style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
+                                                                    <span>❤️</span>
+                                                                    <span>{board.likeCount}</span>
+                                                                </span>
+                                                            )}
+                                                            {board.commentCount > 0 && (
+                                                                <span style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
+                                                                    <span>💬</span>
+                                                                    <span>{board.commentCount}</span>
+                                                                </span>
+                                                            )}
+                                                        </>
+                                                    )}
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+
+                            {/* 🚨 7. 페이지 이동 버튼 (JSX 하단에 추가) */}
+                            <div className='pagination'>
+                                <button 
+                                    onClick={() => handlePageChange(idx - 1)} 
+                                    disabled={idx === 0}
+                                >
+                                    이전
+                                </button>
+                                {/* 현재 페이지 번호 표시 (선택 사항) */}
+                                <span>{idx + 1} / {totalPages}</span> 
+                                <button 
+                                    onClick={() => handlePageChange(idx + 1)} 
+                                    disabled={idx === totalPages - 1 || totalPages === 0}
+                                >
+                                    다음
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

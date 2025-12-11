@@ -52,7 +52,7 @@ export const createComment = async(boardId, content) => {
 }
 
 export const uploadImage = async(formData) => {
-    const response = await apiClient.post('/api/boards/upload', {file: formData});
+    const response = await apiClient.post('/api/boards/upload', formData);
     return response;
 }
 
