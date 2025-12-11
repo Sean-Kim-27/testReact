@@ -7,6 +7,9 @@ import '../styles/profile.css'
 function Profile({user, setUser}) {
     const [ likeBoards, setLikeBoards ] = useState([]);
     const [ writeBoards, setWriteBoards ] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isError, setIsError] = useState(false);
+
     let toggle = {'like' : false, 'write' : false};
     // const [ commentBoards, setCommentBoards ] = useState([]);
     const navigate = useNavigate();
@@ -16,6 +19,8 @@ function Profile({user, setUser}) {
     const ProfileFetch = async() => {
         try {
             const boardLists = await getBoardList();
+            setIsLoading(true);
+            setIsError(false);
 
             setWriteBoards(boardLists.filter(item => item.nickname == nickname));
             setLikeBoards(boardLists.filter(item => item.liked == true));
@@ -23,12 +28,19 @@ function Profile({user, setUser}) {
             // console.log(boardList.map(board => board.liked == true));
             // console.log(likeBoards);
         } catch(error) {
-            console.log("Tlqkf", error);
+            console.log("Error:", error);
+            setIsError(true); // ✨ 에러 상태 설정
+        } finally {
+            setIsLoading(false); // ✨ 로딩 종료
         }
     }
     // console.log(writeBoards);
     useEffect(() => {
-        ProfileFetch();
+        if (user) {
+            ProfileFetch();
+        } else {
+            setIsLoading(false);
+        }
     }, []);
 
     const handleButton = (e, focus) => {
@@ -71,6 +83,54 @@ function Profile({user, setUser}) {
     }
 
     const totalLikeCount = calcLikeCount();
+
+    // ✨ 로딩 중일 때
+    if (isLoading) {
+        return (
+            <div className="profile_container">
+                <SideBar user={user} setUser={setUser} state={'profile'} />
+                <div className="profile_content_container">
+                    <div className="loading_state">
+                        <div className="loading_spinner"></div>
+                        <div>프로필 가져오고 있다 기다려라.</div>
+                        <div className="loading_dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // ✨ 에러 발생 시
+    if (isError) {
+        return (
+            <div className="profile_container">
+                <SideBar user={user} setUser={setUser} state={'profile'} />
+                <div className="profile_content_container">
+                    <div className="error_state">
+                        <div>프로필 데이터 못찾겠는데?</div>
+                        <button 
+                            onClick={ProfileFetch}
+                            style={{
+                                padding: '10px 20px',
+                                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '8px',
+                                cursor: 'pointer',
+                                fontWeight: '600'
+                            }}
+                        >
+                            다시 시도
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     // console.log(likeBoards);
     // likeBoards.map(likeBoard => { console.log(likeBoard.liked) });

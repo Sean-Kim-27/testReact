@@ -465,6 +465,89 @@
     padding: 40px;
 }
 
+/* 로딩 상태 */
+.loading_state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    text-align: center;
+    color: #2d3748;
+    font-size: 18px;
+    font-weight: 600;
+    gap: 24px;
+}
+
+/* 로딩 스피너 */
+.loading_spinner {
+    width: 60px;
+    height: 60px;
+    border: 5px solid #e5e7eb;
+    border-top: 5px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 로딩 도트 애니메이션 */
+.loading_dots {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading_dots span {
+    width: 12px;
+    height: 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.loading_dots span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.loading_dots span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: scale(0);
+        opacity: 0.5;
+    }
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* 에러 상태 */
+.error_state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    text-align: center;
+    color: #e53e3e;
+    font-size: 16px;
+    font-weight: 600;
+    gap: 16px;
+}
+
+.error_state::before {
+    content: "⚠️";
+    font-size: 48px;
+}
+
 /* 기존 home.css에 추가할 모바일 반응형 스타일 */
 
 /* 통계 카드 모바일 */
@@ -539,6 +622,27 @@
     .logout_btn {
         padding: 8px 10px;
         font-size: 11px;
+    }
+
+    .loading_state {
+        min-height: 300px;
+        font-size: 16px;
+        gap: 20px;
+    }
+
+    .loading_spinner {
+        width: 50px;
+        height: 50px;
+        border-width: 4px;
+    }
+
+    .error_state {
+        min-height: 300px;
+        font-size: 15px;
+    }
+
+    .error_state::before {
+        font-size: 40px;
     }
 }
 
@@ -653,6 +757,31 @@
     .main_content {
         margin-left: 65px !important;
         width: calc(100% - 65px) !important;
+    }
+
+    .loading_state {
+        min-height: 250px;
+        font-size: 15px;
+        gap: 18px;
+    }
+
+    .loading_spinner {
+        width: 45px;
+        height: 45px;
+    }
+
+    .loading_dots span {
+        width: 10px;
+        height: 10px;
+    }
+
+    .error_state {
+        min-height: 250px;
+        font-size: 14px;
+    }
+
+    .error_state::before {
+        font-size: 36px;
     }
 }
 
@@ -804,5 +933,31 @@
         padding: 8px 16px !important;
         font-size: 12px !important;
         border-radius: 6px !important;
+    }
+    
+    .loading_state {
+        min-height: 200px;
+        font-size: 14px;
+        gap: 16px;
+    }
+
+    .loading_spinner {
+        width: 40px;
+        height: 40px;
+        border-width: 3px;
+    }
+
+    .loading_dots span {
+        width: 8px;
+        height: 8px;
+    }
+
+    .error_state {
+        min-height: 200px;
+        font-size: 13px;
+    }
+
+    .error_state::before {
+        font-size: 32px;
     }
 }

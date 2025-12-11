@@ -10,6 +10,8 @@ import '../styles/init.css'
 function Home({user, setUser}) {
     const navigate = useNavigate();
     const token = sessionStorage.getItem("jwtToken");
+    const [isLoading, setIsLoading] = useState(true);
+    const [isError, setIsError] = useState(false);
     const [stats, setStats] = useState({
         totalBoards: 0,
         totalUsers: 0,
@@ -21,11 +23,16 @@ function Home({user, setUser}) {
     useEffect(() => {
         if (token) {
             fetchStats();
+        } else {
+            setIsLoading(false); // 토큰이 없으면 로딩 종료
         }
     }, [token]);
 
     const fetchStats = async () => {
         let writedUsers = new Set();
+
+        setIsLoading(true);
+        setIsError(false);
 
         try {
             const [ ...data ] = await getBoardList();
@@ -49,6 +56,9 @@ function Home({user, setUser}) {
             });
         } catch (error) {
             console.error('통계 데이터 로딩 실패:', error);
+            setIsError(true); // ✨ 에러 상태 설정
+        } finally {
+            setIsLoading(false); // ✨ 로딩 종료
         }
     };
 
@@ -56,6 +66,54 @@ function Home({user, setUser}) {
         const date = new Date(dateString);
         return date.toLocaleDateString('ko-KR');
     };
+
+    // ✨ 로딩 중일 때
+    if (isLoading) {
+        return (
+            <div className="Home_container">
+                <SideBar user={user} setUser={setUser} state={'home'} />
+                <div className="main_content">
+                    <div className="loading_state">
+                        <div className="loading_spinner"></div>
+                        <div>기다리라.</div>
+                        <div className="loading_dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // ✨ 에러 발생 시
+    if (isError) {
+        return (
+            <div className="Home_container">
+                <SideBar user={user} setUser={setUser} state={'home'} />
+                <div className="main_content">
+                    <div className="error_state">
+                        <div>내는 못하겠다.</div>
+                        <button 
+                            onClick={fetchStats}
+                            style={{
+                                padding: '10px 20px',
+                                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '8px',
+                                cursor: 'pointer',
+                                fontWeight: '600'
+                            }}
+                        >
+                            다시 시도
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="Home_container">

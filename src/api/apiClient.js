@@ -5,7 +5,7 @@ import axios from 'axios';
 const apiClient = axios.create({
     baseURL: 'https://testspring-kmuc.onrender.com', 
     headers: {
-        'Content-Type': 'application/json',
+        // 'Content-Type': 'multipart/form-data',
     },
 });
 

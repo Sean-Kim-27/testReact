@@ -38,6 +38,7 @@ function BoardList({ user, setUser }) {
     useEffect(() => {
         if (token) {
             // fetchBoards();
+            // console.log("asd");
             const client = new Client({
                 // 🚨 1. 웹소켓 브로커 URL 지정
                 webSocketFactory: () => {
@@ -47,12 +48,12 @@ function BoardList({ user, setUser }) {
                 
                 // 🚨 2. 연결 성공 시 처리
                 onConnect: () => {
-                    console.log('웹소켓 연결 성공!');
+                    // console.log('웹소켓 연결 성공!');
                     // console.log(client);
                     
                     // 3. '/topic/boards' 채널 구독 시작
                     client.subscribe('/topic/new-board', (message) => {
-                        console.log('새 게시글 알림 수신, 목록 업데이트:', message.body);
+                        // console.log('새 게시글 알림 수신, 목록 업데이트:', message.body);
                         // 메시지가 오면 목록을 다시 불러와 화면을 최신화
                         // fetchBoards(); 
                         queryClient.invalidateQueries({queryKey: ['boardList']});
@@ -60,7 +61,6 @@ function BoardList({ user, setUser }) {
                     
                     // 🚨 초기 로딩 시 목록 가져오기
                     // fetchBoards(); 
-                    client.activate();
                 },
                 
                 // 4. 에러 처리
@@ -70,7 +70,8 @@ function BoardList({ user, setUser }) {
             });
 
             // 5. 클라이언트 활성화 (연결 시작)
-
+            client.activate();
+            
             // 6. ⭐️ 컴포넌트가 종료될 때 연결 해제 (클린업)
             return () => {
                 if (client) {
@@ -103,46 +104,82 @@ function BoardList({ user, setUser }) {
             </div>
         );
     }
+
+    // ✨ 에러 발생 시
     if (isError) {
-        console.error("게시물 로딩 에러:", error);
-        return <div className="error_state">데이터를 못 가져왔다. 서버 상태 확인해라.</div>;
+        return (
+            <div className="profile_container">
+                <SideBar user={user} setUser={setUser} state={'profile'} />
+                <div className="profile_content_container">
+                    <div className="error_state">
+                        <div>프로필 데이터를 불러오는데 실패했습니다.</div>
+                        <button 
+                            onClick={queryClient.invalidateQueries({queryKey: ['boardList']})}
+                            style={{
+                                padding: '10px 20px',
+                                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '8px',
+                                cursor: 'pointer',
+                                fontWeight: '600'
+                            }}
+                        >
+                            다시 시도
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
+    // 🚨 파일 변경 핸들러 추가
+    const handleFileChange = (e) => {
+        // e.target.files[0]이 선택된 파일이다.
+        // console.log(e.target.files[0]);
+        setFile(e.target.files[0]); 
+    };
+
+    // 🚨 글 작성 함수 수정!
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!title.trim() || !content.trim()) {
-            alert("제목과 내용을 입력해주세요.");
+
+        if (!user || !user.token) {
+            alert("로그인부터 해라.");
             return;
         }
-        console.log(file);
-        // 1. 이미지가 있으면 백엔드에 먼저 올려서 URL 받아옴
-        let uploadedImageUrl = null;
-        if (file) {
-            const formData = new FormData();
-            formData.append("file", file); // 파일 담기
 
-            try {
-                // ★ 백엔드 업로드 API 호출
-                const res = await uploadImage(formData);
-                uploadedImageUrl = res.data; // 백엔드가 준 URL (https://...)
+        if (!title.trim() || !content.trim()) {
+            alert('제목과 내용을 입력해라!');
+            return;
+        }
+
+        let uploadedImageUrl = null;
+        
+        try {
+            // 🚨 1. 파일이 있으면 먼저 업로드한다.
+            if (file) {
+                const formData = new FormData();
+                // 서버에서 'file'이라는 이름으로 받기로 했다면, 여기에 file을 넣는다.
+                formData.append('file', file);
+                console.log(formData);
                 
-            } catch (err) {
-                alert("이미지 업로드 실패함");
-                return;
+                // uploadImage 서비스 함수 호출!
+                const uploadResponse = await uploadImage(formData, user);
+                uploadedImageUrl = uploadResponse; // 서버에서 반환한 이미지 URL 저장
             }
-        } else {
-            try {
-                await createBoard(title, content, uploadedImageUrl, user.nickname);
-                alert("게시글 작성 완료!");
-                
-                setTitle('');
-                setContent('');
-                setFile('');
-                queryClient.invalidateQueries({queryKey: ['boardList']});
-            } catch (error) {
-                console.error("게시글 작성 실패:", error);
-                alert("게시글 작성에 실패했습니다.");
-            }
+
+            // 🚨 2. 게시글 작성 함수 호출 시 이미지 URL도 같이 보낸다.
+            await createBoard(title, content, uploadedImageUrl, user.nickname); 
+            
+            setTitle('');
+            setContent('');
+            setFile(null); // 파일 상태 초기화
+            queryClient.invalidateQueries({ queryKey: ['boardList'] }); 
+            alert('게시물 등록 성공!');
+        } catch (error) {
+            console.error('글 작성 중 오류 발생:', error.response?.data || error.message);
+            alert(`글 작성 실패: ${error.response?.data?.message || '알 수 없는 오류'}`);
         }
     };
 
@@ -249,6 +286,12 @@ function BoardList({ user, setUser }) {
                                 placeholder="내용을 입력하세요"
                                 value={content}
                                 onChange={(e) => setContent(e.target.value)}
+                            />
+
+                            <input 
+                                type="file" 
+                                onChange={(e) => { handleFileChange(e) }}
+                                // accept="image/*" // 이미지 파일만 받고 싶다면 이걸 쓴다
                             />
                             <button type="submit">작성</button>
                         </form>

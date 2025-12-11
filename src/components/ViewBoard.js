@@ -71,7 +71,7 @@ function ViewBoard({user, setUser}) {
         e.preventDefault();
         try {
             await createComment(boardId, content); 
-            console.log(boardId, content);
+            // console.log(boardId, content);
             
             alert("댓글이 작성 되었습니다!");
             setContent('');
