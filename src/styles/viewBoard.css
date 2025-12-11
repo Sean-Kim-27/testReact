@@ -611,20 +611,20 @@
 /* 기존 viewBoard.css에 추가할 모바일 반응형 스타일 */
 
 @media screen and (min-width: 1071px) {
-    .board_content_image {
+    .board_content_media {
         width: 300px;
     }
 }
 
 @media screen and (max-width: 1070px) {
-    .board_content_image {
+    .board_content_media {
         max-width:  100%;
         
     }
 }
 
 /* @media screen and (min-width: 769px) {
-    .board_content_image {
+    .board_content_media {
         height: 300px;
     }
 } */
@@ -806,7 +806,7 @@
         font-size: 12px;
     }
 
-    /* .board_content_image {
+    /* .board_content_media {
         height: 200px;
     }  */
 }

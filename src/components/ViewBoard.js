@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from 'react-router-dom'; 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getMediaTypeFromUrl } from '../utils/mediaUtils';
 import '../styles/home.css'
 import '../styles/init.css';
 import '../styles/viewBoard.css';
@@ -29,6 +30,7 @@ function ViewBoard({user, setUser}) {
     const [board, setBoard] = useState(null); 
     const token = sessionStorage.getItem("jwtToken");
 
+
     const fetchBoardDetail = async () => {
         if (!boardId || !token) {
             return; 
@@ -37,7 +39,10 @@ function ViewBoard({user, setUser}) {
         try {
             const { data } = await getBoardDetail(boardId);
             setBoard(data);
-            // console.log(data);
+            // console.log(data.imageUrl);
+            // const mediaType = getMediaTypeFromUrl(data.imageUrl); // URL로 타입 구분
+            // console.log(mediaType);
+
             
             // console.log("상세 게시물 로딩 성공:", data);
         } catch(error) {
@@ -130,6 +135,8 @@ function ViewBoard({user, setUser}) {
         try {
             const { ...data } = await updateBoard(boardId, editTitle, editContent);
             console.log(data);
+
+            
             // 🚨 성공 시 4단계로 넘어감
             alert('게시물 수정 성공!');
             
@@ -142,7 +149,7 @@ function ViewBoard({user, setUser}) {
             alert("게시물 수정 실패! 작성자 권한이나 서버 상태를 확인해라.");
         }
     };
-
+    
     return (
         <div className='Home_container'>
             {/* 왼쪽 사이드바 */}
@@ -241,7 +248,36 @@ function ViewBoard({user, setUser}) {
                                         </div>
                                         <div className="board_body">
                                             <p>{board.content}</p>
-                                            <img className="board_content_image" src={board.imageUrl} />
+                                            {board.imageUrl && (
+                                                <div className="board_media">
+                                                    {(() => {
+                                                        const mediaType = getMediaTypeFromUrl(board.imageUrl); // URL로 타입 구분
+                                                        
+                                                        if (mediaType === 'image') {
+                                                            return (
+                                                                <img 
+                                                                    className="board_content_media"
+                                                                    src={board.imageUrl} 
+                                                                    alt={board.title} 
+                                                                />
+                                                            );
+                                                        } else if (mediaType === 'video') {
+                                                            return (
+                                                                // 컨트롤(재생/정지 등)을 켜고, 자동 재생은 끄고, 루프는 선택 사항.
+                                                                <video 
+                                                                    src={board.imageUrl} 
+                                                                    controls 
+                                                                    className="board_content_media"
+                                                                    // 포스터 이미지를 제공하면 더 좋지만, 일단은 이렇게.
+                                                                />
+                                                            );
+                                                        } else {
+                                                            // 타입 구분이 안 되는 경우 (숨김 또는 기본 이미지)
+                                                            return null;
+                                                        }
+                                                    })()}
+                                                </div>
+                                            )}
                                         </div>
                                         
                                         <div className="action_buttons">
