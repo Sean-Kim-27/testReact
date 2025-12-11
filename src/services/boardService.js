@@ -58,15 +58,17 @@ export const uploadImage = async(file) => {
     
     const fileExtension = file.name.split('.').pop(); // 확장자 추출
     const safeFileName = encodeURI(fileExtension);
+
+    // console.log(safeFileName);
     
     // 🚨 2. 새로운 File 객체 생성
     // File(fileBits, fileName, options)
-    const safeFile = new File([file], safeFileName, { type: file.type }); // Blob 데이터는 그대로 쓰고 이름만 바꾼다!
+    // const safeFile = new File([file], safeFileName, { type: file.type }); // Blob 데이터는 그대로 쓰고 이름만 바꾼다!
 
     // 🚨 3. FormData 객체 생성 및 안전한 파일 추가
     const formData = new FormData();
     // 백엔드가 기대하는 키 'file'을 사용한다.
-    formData.append('file', safeFile); 
+    formData.append('file', file, safeFileName); 
 
     try {
         // 🚨 4. apiClient에 FormData 객체를 바로 전달한다.

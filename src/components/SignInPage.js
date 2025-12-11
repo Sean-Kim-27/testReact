@@ -31,7 +31,7 @@ function SignInPage({setUser}) {
         nickname: nickname,
         userId: userId
       }));
-      console.log(token, nickname);
+      // console.log(token, nickname);
 
       setUser({
             nickname: nickname,
