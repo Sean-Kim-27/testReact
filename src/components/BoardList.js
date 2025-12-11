@@ -222,7 +222,8 @@ function BoardList({ user, setUser }) {
     const handleFileChange = (e) => {
         // e.target.files[0]이 선택된 파일이다.
         // console.log(e.target.files[0]);
-        setFile(e.target.files[0]); 
+        setFile(e.target.files[0]);
+        // console.log(e.target.files[0]);
     };
 
     const handleLogout = () => {
@@ -333,7 +334,7 @@ function BoardList({ user, setUser }) {
                             <input 
                                 type="file" 
                                 onChange={(e) => { handleFileChange(e) }}
-                                // accept="image/*" // 이미지 파일만 받고 싶다면 이걸 쓴다
+                                accept="image/*,video/*"
                             />
                             <button type="submit">작성</button>
                         </form>

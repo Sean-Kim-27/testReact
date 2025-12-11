@@ -52,23 +52,29 @@ export const createComment = async(boardId, content) => {
 }
 
 export const uploadImage = async(file) => {
-    // 🚨 1. FormData 객체 생성
-    const formData = new FormData();
+    // 🚨 1. 파일 이름 인코딩 및 변경 로직
+    // UUID + 원래 확장자를 붙여서 완전히 고유하고 안전한 이름으로 만든다.
+    // 'file'이 null인지 확인하는 로직은 BoardList에서 처리했으니 여기서는 file이 있다고 가정.
     
-    // 🚨 2. 파일을 'file'이라는 키(백엔드에서 기대하는 파라미터 이름)로 추가
-    // 백엔드(Spring)의 컨트롤러 메서드에 @RequestParam("file") 이라고 되어 있다면, 이 키 이름이 'file'이어야 한다!
-    formData.append('file', file); 
+    const fileExtension = file.name.split('.').pop(); // 확장자 추출
+    const safeFileName = encodeURI(fileExtension);
+    
+    // 🚨 2. 새로운 File 객체 생성
+    // File(fileBits, fileName, options)
+    const safeFile = new File([file], safeFileName, { type: file.type }); // Blob 데이터는 그대로 쓰고 이름만 바꾼다!
+
+    // 🚨 3. FormData 객체 생성 및 안전한 파일 추가
+    const formData = new FormData();
+    // 백엔드가 기대하는 키 'file'을 사용한다.
+    formData.append('file', safeFile); 
 
     try {
-        // 🚨 3. apiClient에 FormData 객체를 바로 전달한다.
-        // Axios는 FormData를 받으면 Content-Type을 'multipart/form-data'로 자동 설정한다!
+        // 🚨 4. apiClient에 FormData 객체를 바로 전달한다.
         const response = await apiClient.post('/api/boards/upload', formData); 
         
-        // 서버 응답이 response.data에 있을 거다.
-        console.log(response);
+        // 서버 응답 (URL 문자열만 반환한다고 가정)
         return response; 
     } catch (error) {
-        // 에러를 던져서 호출부에서 처리할 수 있게 한다.
         console.error("이미지 업로드 실패:", error.response || error);
         throw error;
     }
