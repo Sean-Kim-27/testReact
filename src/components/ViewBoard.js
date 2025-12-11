@@ -241,7 +241,7 @@ function ViewBoard({user, setUser}) {
                                         </div>
                                         <div className="board_body">
                                             <p>{board.content}</p>
-                                            <img className="board_content_image" height="300px" src={board.imageUrl} />
+                                            <img className="board_content_image" src={board.imageUrl} />
                                         </div>
                                         
                                         <div className="action_buttons">

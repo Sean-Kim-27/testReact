@@ -341,50 +341,6 @@ function BoardList({ user, setUser }) {
                     </div>
 
                     <div className="board_list">
-                        {/* {boards.length > 0 ? (
-                            boards.map((board) => (
-                                <div key={board.id} className="board_item" onClick={() => navigate(`/viewBoard/${board.id}`)}>
-                                    <div className="board_item_left">
-                                        <div className="board_profile">
-                                            {board.nickname?.charAt(0)?.toUpperCase() || 'A'}
-                                        </div>
-                                        <div className="board_info">
-                                            <div className="board_title">{board.title}</div>
-                                            <div className="board_content">{board.content}</div>
-                                            <div className="board_meta">
-                                                <span className="board_author">{board.author || board.nickname}</span>
-                                                <span>•</span>
-                                                <span className="board_date">{formatDate(board.createdAt)}</span>
-                                                {(board.likeCount > 0 || board.commentCount > 0) && (
-                                                    <>
-                                                        <span>•</span>
-                                                        {board.likeCount > 0 && (
-                                                            <span style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
-                                                                <span>❤️</span>
-                                                                <span>{board.likeCount}</span>
-                                                            </span>
-                                                        )}
-                                                        {board.commentCount > 0 && (
-                                                            <span style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
-                                                                <span>💬</span>
-                                                                <span>{board.commentCount }</span>
-                                                            </span>
-                                                        )}
-                                                    </>
-                                                )}
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        ) : (
-                            <div className="empty_state">
-                                <p>아직 게시물이 없습니다.</p>
-                                <p>첫 번째 게시물을 작성해보세요!</p>
-                            </div>
-                        )} */}
-
                         <div className='board-list-container'>
                             {/* 🚨 6. 5개씩 묶인 displayedBoards를 map 돌려 보여준다. */}
                             {displayedBoards.map((board) => (
@@ -396,7 +352,7 @@ function BoardList({ user, setUser }) {
                                             </div>
                                             <div className="board_info">
                                                 <div className="board_title">{board.title}</div>
-                                                <div className="board_content">{board.content}</div>
+                                                <div className="boardList_content">{board.content}</div>
                                                 <div className="board_meta">
                                                     <span className="board_author">{board.author || board.nickname}</span>
                                                     <span>•</span>

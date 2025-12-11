@@ -166,6 +166,7 @@
     padding: 40px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
     margin-bottom: 24px;
+    min-height: 500px;
 }
 
 .board_content_header {
@@ -227,6 +228,10 @@
     line-height: 1.7;
     color: #374151;
     margin-bottom: 32px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .board_body p {
@@ -605,6 +610,25 @@
 
 /* 기존 viewBoard.css에 추가할 모바일 반응형 스타일 */
 
+@media screen and (min-width: 1071px) {
+    .board_content_image {
+        width: 300px;
+    }
+}
+
+@media screen and (max-width: 1070px) {
+    .board_content_image {
+        max-width:  100%;
+        
+    }
+}
+
+/* @media screen and (min-width: 769px) {
+    .board_content_image {
+        height: 300px;
+    }
+} */
+
 @media screen and (max-width: 768px) {
     .sidebar {
         width: 70px;
@@ -781,6 +805,10 @@
     .logout_btn {
         font-size: 12px;
     }
+
+    /* .board_content_image {
+        height: 200px;
+    }  */
 }
 
 @media screen and (max-width: 480px) {
@@ -1105,4 +1133,5 @@
         font-size: 11px;
         border-radius: 6px;
     }
+
 }
