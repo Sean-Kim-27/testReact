@@ -19,6 +19,7 @@ function RegisterPage() {
       alert("뒤지기 싫으면 다 채워라");
       return;
     }
+    // console.log(nickname, userId, password);
     try {
       const {data} = await register(nickname, userId, password);
       // ... 요청 ...
@@ -29,7 +30,7 @@ function RegisterPage() {
       // ★★★ 백엔드가 보낸 에러 메시지(message)를 띄워준다 ★★★
       // err.response.data.message가 없을 수도 있으니 안전하게 처리
       const msg = err.response?.data?.message || "가입 실패. (서버 에러)";
-      alert(msg); 
+      alert("아이디 중복 가능성 농후"); 
     }
   }
 
